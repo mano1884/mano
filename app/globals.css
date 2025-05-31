@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 38 92% 50%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom gradient backgrounds */
+.gradient-bg-1 {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2d1810 100%);
+}
+
+.gradient-bg-2 {
+  background: linear-gradient(45deg, #000000 0%, #1a0f00 25%, #2d1810 50%, #1a0f00 75%, #000000 100%);
+}
+
+.gradient-bg-3 {
+  background: radial-gradient(ellipse at center, #2d1810 0%, #1a0f00 50%, #000000 100%);
+}
+
+/* Gold accent patterns */
+.gold-pattern {
+  background-image: radial-gradient(circle at 25% 25%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+}
+
+/* Animated gradient */
+.animated-gradient {
+  background: linear-gradient(-45deg, #000000, #1a0f00, #2d1810, #1a0f00);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Card enhancements */
+.premium-card {
+  background: linear-gradient(145deg, rgba(45, 24, 16, 0.3), rgba(26, 15, 0, 0.5));
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1);
+}
+
+.premium-card:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 12px 40px rgba(245, 158, 11, 0.2);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Text glow effects */
+.text-glow {
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+.text-glow-subtle {
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+/* Button enhancements */
+.btn-premium {
+  background: linear-gradient(45deg, #f59e0b, #d97706);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-premium:hover {
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+  transform: translateY(-1px);
+}

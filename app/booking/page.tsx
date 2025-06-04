@@ -359,7 +359,7 @@ export default function BookingPage() {
                           mode="single"
                           selected={slot.date}
                           onSelect={(date) => updateSessionSlot(slot.id, "date", date)}
-                          className="rounded-md border border-amber-500/30 bg-black/50 text-white scale-75 origin-top-left backdrop-blur-sm"
+                          className="rounded-md border border-amber-500/30 bg-black/50 text-white w-full backdrop-blur-sm"
                           disabled={(date) => date < new Date() || date.getDay() === 0}
                         />
                       </div>

@@ -30,7 +30,7 @@ export function Features() {
   ]
 
   return (
-    <section id="features" className="py-20 gradient-bg-2 relative">
+    <section id="features" className="py-20 relative">
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">

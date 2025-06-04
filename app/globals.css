@@ -33,35 +33,24 @@
   }
   body {
     @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom gradient backgrounds */
-.gradient-bg-1 {
-  background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2d1810 100%);
-}
-
-.gradient-bg-2 {
-  background: linear-gradient(45deg, #000000 0%, #1a0f00 25%, #2d1810 50%, #1a0f00 75%, #000000 100%);
-}
-
-.gradient-bg-3 {
-  background: radial-gradient(ellipse at center, #2d1810 0%, #1a0f00 50%, #000000 100%);
-}
-
-/* Gold accent patterns */
-.gold-pattern {
-  background-image: radial-gradient(circle at 25% 25%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
-}
-
-/* Animated gradient */
+/* ORIGINAL VERSION - Current animated gradient */
 .animated-gradient {
   background: linear-gradient(-45deg, #000000, #1a0f00, #2d1810, #1a0f00);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* VARIATION 4 - Midnight black with golden highlights */
+.gradient-variation-4 {
+  background: linear-gradient(-45deg, #0d0d0d, #1f1611, #332818, #1f1611);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
 }
@@ -76,6 +65,12 @@ html {
   100% {
     background-position: 0% 50%;
   }
+}
+
+/* Gold accent patterns */
+.gold-pattern {
+  background-image: radial-gradient(circle at 25% 25%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
 }
 
 /* Card enhancements */
@@ -112,4 +107,26 @@ html {
 .btn-premium:hover {
   box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
   transform: translateY(-1px);
+}
+
+/* Loading screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #0d0d0d, #1f1611, #332818, #1f1611);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
 }

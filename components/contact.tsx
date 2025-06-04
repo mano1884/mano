@@ -37,46 +37,47 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="py-20">
-      <div className="container">
+    <section id="contact" className="py-20 relative">
+      <div className="absolute inset-0 gold-pattern"></div>
+      <div className="container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white text-glow-subtle">Get in Touch</h2>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Have questions or ready to start? Contact us today to learn more about our tutoring services.
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+            <h3 className="text-2xl font-bold mb-6 text-white">Contact Information</h3>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 <Mail className="h-6 w-6 text-amber-500 mt-1" />
                 <div>
-                  <h4 className="font-medium">Email Us</h4>
-                  <p className="text-muted-foreground">info@unitutors.com</p>
-                  <p className="text-muted-foreground">support@unitutors.com</p>
+                  <h4 className="font-medium text-white">Email Us</h4>
+                  <p className="text-gray-300">info@unitutors.com</p>
+                  <p className="text-gray-300">support@unitutors.com</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Phone className="h-6 w-6 text-amber-500 mt-1" />
                 <div>
-                  <h4 className="font-medium">Call Us</h4>
-                  <p className="text-muted-foreground">(555) 123-4567</p>
-                  <p className="text-muted-foreground">Mon-Fri: 9am-8pm, Sat: 10am-4pm</p>
+                  <h4 className="font-medium text-white">Call Us</h4>
+                  <p className="text-gray-300">(555) 123-4567</p>
+                  <p className="text-gray-300">Mon-Fri: 9am-8pm, Sat: 10am-4pm</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <MapPin className="h-6 w-6 text-amber-500 mt-1" />
                 <div>
-                  <h4 className="font-medium">Visit Us</h4>
-                  <p className="text-muted-foreground">123 University Ave</p>
-                  <p className="text-muted-foreground">College Town, CA 12345</p>
+                  <h4 className="font-medium text-white">Visit Us</h4>
+                  <p className="text-gray-300">123 University Ave</p>
+                  <p className="text-gray-300">College Town, CA 12345</p>
                 </div>
               </div>
             </div>
             <div className="mt-10">
-              <h3 className="text-2xl font-bold mb-6">Office Hours</h3>
-              <div className="space-y-2">
+              <h3 className="text-2xl font-bold mb-6 text-white">Office Hours</h3>
+              <div className="space-y-2 text-gray-300">
                 <div className="flex justify-between">
                   <span>Monday - Friday</span>
                   <span>9:00 AM - 8:00 PM</span>
@@ -93,21 +94,26 @@ export function Contact() {
             </div>
           </div>
           <div>
-            <h3 className="text-2xl font-bold mb-6">Send Us a Message</h3>
+            <h3 className="text-2xl font-bold mb-6 text-white">Send Us a Message</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name" className="text-white">
+                  Full Name
+                </Label>
                 <Input
                   id="name"
                   name="name"
                   placeholder="Your name"
                   value={formData.name}
                   onChange={handleChange}
+                  className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email" className="text-white">
+                  Email Address
+                </Label>
                 <Input
                   id="email"
                   name="email"
@@ -115,26 +121,41 @@ export function Contact() {
                   placeholder="your.email@example.com"
                   value={formData.email}
                   onChange={handleChange}
+                  className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
+                <Label htmlFor="subject" className="text-white">
+                  Subject
+                </Label>
                 <Select>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm">
                     <SelectValue placeholder="Select a subject" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="general">General Inquiry</SelectItem>
-                    <SelectItem value="tutoring">Tutoring Services</SelectItem>
-                    <SelectItem value="pricing">Pricing Information</SelectItem>
-                    <SelectItem value="become-tutor">Become a Tutor</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                  <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
+                    <SelectItem value="general" className="text-white hover:bg-amber-500/20">
+                      General Inquiry
+                    </SelectItem>
+                    <SelectItem value="tutoring" className="text-white hover:bg-amber-500/20">
+                      Tutoring Services
+                    </SelectItem>
+                    <SelectItem value="pricing" className="text-white hover:bg-amber-500/20">
+                      Pricing Information
+                    </SelectItem>
+                    <SelectItem value="become-tutor" className="text-white hover:bg-amber-500/20">
+                      Become a Tutor
+                    </SelectItem>
+                    <SelectItem value="other" className="text-white hover:bg-amber-500/20">
+                      Other
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
+                <Label htmlFor="message" className="text-white">
+                  Message
+                </Label>
                 <Textarea
                   id="message"
                   name="message"
@@ -142,10 +163,11 @@ export function Contact() {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
+                  className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm"
                   required
                 />
               </div>
-              <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-white">
+              <Button type="submit" className="w-full btn-premium text-black font-medium">
                 Send Message
               </Button>
             </form>

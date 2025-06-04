@@ -48,7 +48,7 @@ export function Testimonials() {
   ]
 
   return (
-    <section id="testimonials" className="py-20 gradient-bg-1 relative">
+    <section id="testimonials" className="py-20 relative">
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">

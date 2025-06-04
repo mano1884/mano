@@ -35,7 +35,7 @@ export function Tutors() {
   ]
 
   return (
-    <section id="tutors" className="py-20 gradient-bg-3 relative">
+    <section id="tutors" className="py-20 relative">
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">

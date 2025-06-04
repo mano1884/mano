@@ -50,7 +50,7 @@ export function Subjects() {
   ]
 
   return (
-    <section id="subjects" className="py-20 animated-gradient relative">
+    <section id="subjects" className="py-20 relative">
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">

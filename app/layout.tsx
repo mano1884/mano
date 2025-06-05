@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "UniTutors - Expert University Tutoring",
   description: "Private tutoring for university students, taught by the best",
   generator: "v0.dev",
+  viewport: "width=1200, initial-scale=1",
 }
 
 export default function RootLayout({

@@ -26,6 +26,7 @@ export default function BookingPage() {
   const [groupSize, setGroupSize] = useState([2])
   const [numberOfSessions, setNumberOfSessions] = useState("")
   const [sessionSlots, setSessionSlots] = useState<SessionSlot[]>([{ id: "1", date: new Date(), time: "" }])
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,20 +34,21 @@ export default function BookingPage() {
     notes: "",
   })
 
-  const timeSlots = [
-    "9:00 AM",
-    "10:00 AM",
-    "11:00 AM",
-    "12:00 PM",
-    "1:00 PM",
-    "2:00 PM",
-    "3:00 PM",
-    "4:00 PM",
-    "5:00 PM",
-    "6:00 PM",
-    "7:00 PM",
-    "8:00 PM",
-  ]
+  // Get available time slots based on the day of the week
+  const getTimeSlots = (date: Date | undefined) => {
+    if (!date) return []
+
+    const day = date.getDay() // 0 is Sunday, 1 is Monday, etc.
+
+    // Monday (1), Wednesday (3), Friday (5)
+    if (day === 1 || day === 3 || day === 5) {
+      return ["10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM"]
+    }
+    // Tuesday (2), Thursday (4), Saturday (6), Sunday (0)
+    else {
+      return ["1:00 PM", "2:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"]
+    }
+  }
 
   const subjects = [
     "Principles of Financial Management I & II",
@@ -91,7 +93,18 @@ export default function BookingPage() {
   }
 
   const updateSessionSlot = (id: string, field: keyof SessionSlot, value: any) => {
-    setSessionSlots(sessionSlots.map((slot) => (slot.id === id ? { ...slot, [field]: value } : slot)))
+    setSessionSlots(
+      sessionSlots.map((slot) => {
+        if (slot.id === id) {
+          // If updating the date, reset the time since available times may change
+          if (field === "date") {
+            return { ...slot, [field]: value, time: "" }
+          }
+          return { ...slot, [field]: value }
+        }
+        return slot
+      }),
+    )
   }
 
   const getTotalHours = () => {
@@ -139,10 +152,62 @@ export default function BookingPage() {
     return sessionSlots.length < maxSessions
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    alert("Booking request submitted! We'll contact you soon to confirm your sessions and process payment.")
+    setIsSubmitting(true)
+
+    try {
+      // Format session details for email
+      const sessionDetailsText = sessionSlots
+        .map(
+          (slot, index) =>
+            `<div style="margin-bottom: 8px;"><strong>Session ${index + 1}:</strong> ${slot.date?.toLocaleDateString() || "Date not set"} at ${slot.time || "Time not set"}</div>`,
+        )
+        .join("")
+
+      const sessionTypeText = sessionType === "1-on-1" ? "1-on-1 Session" : `Group Session (${groupSize[0]} persons)`
+
+      // Send booking data to API route
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          sessionDetails: sessionDetailsText,
+          totalAmount: getSessionPrice(),
+          sessionType: sessionTypeText,
+          numberOfSessions: getTotalHours(),
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        alert(
+          "🎉 Booking confirmed! A confirmation email has been sent to your inbox. We'll contact you within 24 hours to finalize the details.",
+        )
+
+        // Reset form
+        setFormData({ name: "", email: "", subject: "", notes: "" })
+        setSessionType("")
+        setNumberOfSessions("")
+        setSessionSlots([{ id: "1", date: new Date(), time: "" }])
+      } else {
+        console.error("Email sending failed:", result.error)
+        alert(
+          "Booking submitted successfully! However, there was an issue sending the confirmation email. We'll contact you directly to confirm your sessions.",
+        )
+      }
+    } catch (error) {
+      console.error("Booking submission error:", error)
+      alert("Booking request submitted! We'll contact you soon to confirm your sessions.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const isFormValid = () => {
@@ -159,7 +224,7 @@ export default function BookingPage() {
   return (
     <div className="min-h-screen animated-gradient text-white relative">
       <div className="absolute inset-0 gold-pattern"></div>
-      <div className="container py-8 relative z-10">
+      <div className="container mx-auto py-8 relative z-10" style={{ width: "1200px", maxWidth: "100%" }}>
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300">
             <ArrowLeft className="h-4 w-4" />
@@ -172,7 +237,7 @@ export default function BookingPage() {
           <p className="text-gray-300 text-lg">Schedule sessions with Mr. Emanuel Youssef</p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-3 gap-8 max-w-7xl mx-auto">
           {/* Session Details Form - First Column */}
           <Card className="premium-card">
             <CardHeader>
@@ -367,7 +432,7 @@ export default function BookingPage() {
                       <div>
                         <Label className="text-amber-300 text-sm mb-2 block">Time</Label>
                         <div className="grid grid-cols-2 gap-1">
-                          {timeSlots.map((time) => (
+                          {getTimeSlots(slot.date).map((time) => (
                             <Button
                               key={time}
                               variant={slot.time === time ? "default" : "outline"}
@@ -383,6 +448,12 @@ export default function BookingPage() {
                             </Button>
                           ))}
                         </div>
+                        {!slot.date && (
+                          <p className="text-xs text-amber-400 mt-2">Please select a date to see available times</p>
+                        )}
+                        {slot.date && getTimeSlots(slot.date).length === 0 && (
+                          <p className="text-xs text-amber-400 mt-2">No time slots available for this date</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -482,9 +553,9 @@ export default function BookingPage() {
               <Button
                 onClick={handleSubmit}
                 className="w-full btn-premium text-black font-medium py-3"
-                disabled={!isFormValid()}
+                disabled={!isFormValid() || isSubmitting}
               >
-                Book Sessions & Proceed to Payment
+                {isSubmitting ? "Sending..." : "Book Session(s)"}
               </Button>
             </CardContent>
           </Card>

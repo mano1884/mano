@@ -160,11 +160,27 @@
   text-align: center;
 }
 
-/* Responsive booking grid */
-.responsive-booking-grid {
+/* Experimental 2+1 layout */
+.experimental-booking-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.top-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-row .premium-card {
+  width: 100%;
+  max-width: 500px;
 }
 
 /* Desktop mode styles for mobile */
@@ -195,27 +211,46 @@
   }
 }
 
-/* Responsive calendar styles */
+/* Responsive calendar styles - CENTERED */
 .responsive-calendar-container {
   width: 100%;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .responsive-calendar {
   width: 100% !important;
-  max-width: 100% !important;
+  max-width: 320px !important;
   font-size: 0.75rem;
+  margin: 0 auto !important;
 }
 
 .responsive-calendar .rdp {
-  margin: 0 !important;
+  margin: 0 auto !important;
   width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.responsive-calendar .rdp-months {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.responsive-calendar .rdp-month {
+  width: 100% !important;
+  max-width: 300px !important;
 }
 
 .responsive-calendar .rdp-table {
   width: 100% !important;
   table-layout: fixed !important;
   border-spacing: 2px !important;
+  margin: 0 auto !important;
 }
 
 .responsive-calendar .rdp-head_cell {
@@ -240,7 +275,7 @@
   justify-content: center !important;
   font-size: 0.65rem !important;
   border-radius: 0.25rem !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   padding: 0 !important;
 }
 
@@ -258,12 +293,21 @@
   justify-content: space-between !important;
   align-items: center !important;
   margin-bottom: 0.5rem !important;
+  width: 100% !important;
+}
+
+.responsive-calendar .rdp-caption {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
 .responsive-calendar .rdp-caption_label {
   font-size: 0.75rem !important;
   font-weight: 600 !important;
   color: white !important;
+  text-align: center !important;
 }
 
 .responsive-calendar .rdp-nav_button {
@@ -280,38 +324,6 @@
 
 .responsive-calendar .rdp-nav_button:hover {
   background-color: rgba(245, 158, 11, 0.2) !important;
-}
-
-/* Responsive breakpoints for booking grid */
-@media screen and (max-width: 1024px) {
-  .responsive-booking-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .responsive-calendar {
-    font-size: 0.875rem;
-  }
-
-  .responsive-calendar .rdp-day {
-    height: 2.5rem !important;
-    font-size: 0.75rem !important;
-  }
-
-  .responsive-calendar .rdp-head_cell {
-    font-size: 0.7rem !important;
-  }
-
-  .responsive-calendar .rdp-caption_label {
-    font-size: 0.875rem !important;
-  }
-}
-
-@media screen and (min-width: 1025px) and (max-width: 1200px) {
-  .responsive-booking-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
 }
 
 /* Fix for booking page and success page */

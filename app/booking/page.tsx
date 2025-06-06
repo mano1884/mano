@@ -327,319 +327,331 @@ export default function BookingPage() {
           <p className="text-gray-300 text-base">Schedule sessions with Mr. Emanuel Youssef</p>
         </div>
 
-        <div className="responsive-booking-grid px-4">
-          {/* Session Details Form - First Column */}
-          <Card className="premium-card">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-white flex items-center gap-2 text-base">
-                <User className="h-4 w-4 text-amber-400" />
-                Session Details
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Label className="text-white mb-2 block text-sm">Session Type</Label>
-                  <RadioGroup value={sessionType} onValueChange={setSessionType}>
-                    <div className="flex items-center space-x-2 p-2 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
-                      <RadioGroupItem value="1-on-1" id="one-on-one" />
-                      <Label
-                        htmlFor="one-on-one"
-                        className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1 text-xs"
-                      >
-                        <User className="h-3 w-3" />
-                        1-on-1 Session
-                        <span className="text-amber-400 font-semibold ml-auto">$25/hour</span>
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2 p-2 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
-                      <RadioGroupItem value="group" id="group" />
-                      <Label
-                        htmlFor="group"
-                        className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1 text-xs"
-                      >
-                        <Users className="h-3 w-3" />
-                        Group Session
-                        <span className="text-amber-400 font-semibold ml-auto">${getGroupPrice()}/hour</span>
-                      </Label>
-                    </div>
-                  </RadioGroup>
-
-                  {sessionType === "group" && (
-                    <div className="mt-3 p-3 premium-card rounded-lg">
-                      <Label className="text-white mb-2 block text-xs">Group Size: {groupSize[0]} persons</Label>
-                      <Slider
-                        value={groupSize}
-                        onValueChange={setGroupSize}
-                        max={4}
-                        min={2}
-                        step={1}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-xs text-amber-300 mt-1">
-                        <span>2 ($35/hr)</span>
-                        <span>3 ($45/hr)</span>
-                        <span>4 ($55/hr)</span>
+        <div className="experimental-booking-layout px-4">
+          {/* Top Row: Session Details + Calendar */}
+          <div className="top-row">
+            {/* Session Details Form - Left */}
+            <Card className="premium-card">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-white flex items-center gap-2 text-base">
+                  <User className="h-4 w-4 text-amber-400" />
+                  Session Details
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <Label className="text-white mb-2 block text-sm">Session Type</Label>
+                    <RadioGroup value={sessionType} onValueChange={setSessionType}>
+                      <div className="flex items-center space-x-2 p-2 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
+                        <RadioGroupItem value="1-on-1" id="one-on-one" />
+                        <Label
+                          htmlFor="one-on-one"
+                          className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1 text-xs"
+                        >
+                          <User className="h-3 w-3" />
+                          1-on-1 Session
+                          <span className="text-amber-400 font-semibold ml-auto">$25/hour</span>
+                        </Label>
                       </div>
+                      <div className="flex items-center space-x-2 p-2 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
+                        <RadioGroupItem value="group" id="group" />
+                        <Label
+                          htmlFor="group"
+                          className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1 text-xs"
+                        >
+                          <Users className="h-3 w-3" />
+                          Group Session
+                          <span className="text-amber-400 font-semibold ml-auto">${getGroupPrice()}/hour</span>
+                        </Label>
+                      </div>
+                    </RadioGroup>
+
+                    {sessionType === "group" && (
+                      <div className="mt-3 p-3 premium-card rounded-lg">
+                        <Label className="text-white mb-2 block text-xs">Group Size: {groupSize[0]} persons</Label>
+                        <Slider
+                          value={groupSize}
+                          onValueChange={setGroupSize}
+                          max={4}
+                          min={2}
+                          step={1}
+                          className="w-full"
+                        />
+                        <div className="flex justify-between text-xs text-amber-300 mt-1">
+                          <span>2 ($35/hr)</span>
+                          <span>3 ($45/hr)</span>
+                          <span>4 ($55/hr)</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <Label className="text-white mb-2 block text-sm">Number of Sessions</Label>
+                    <Select value={numberOfSessions} onValueChange={setNumberOfSessions}>
+                      <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs">
+                        <SelectValue placeholder="Select hours" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((hours) => (
+                          <SelectItem
+                            key={hours}
+                            value={hours.toString()}
+                            className="text-white hover:bg-amber-500/20 text-xs"
+                          >
+                            {hours} Hour{hours > 1 ? "s" : ""}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-amber-400 mt-1">💡 Every 5 hours, get 1 free!</p>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="name" className="text-white text-sm">
+                      Full Name
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="email" className="text-white text-sm">
+                      Email Address
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-white text-sm">Subject</Label>
+                    <Select
+                      value={formData.subject}
+                      onValueChange={(value) => setFormData((prev) => ({ ...prev, subject: value }))}
+                    >
+                      <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs">
+                        <SelectValue placeholder="Select subject" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
+                        {subjects.map((subject) => (
+                          <SelectItem
+                            key={subject}
+                            value={subject}
+                            className="text-white hover:bg-amber-500/20 text-xs"
+                          >
+                            {subject}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="notes" className="text-white text-sm">
+                      Notes & Files (Optional)
+                    </Label>
+                    <div className="p-3 border border-amber-500/30 rounded-lg bg-black/30 backdrop-blur-sm space-y-2">
+                      <Textarea
+                        id="notes"
+                        name="notes"
+                        value={formData.notes}
+                        onChange={handleInputChange}
+                        placeholder="Topics to focus on?"
+                        className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm text-xs"
+                        rows={2}
+                      />
+                      <div className="space-y-1">
+                        <Label htmlFor="files" className="text-amber-300 text-xs">
+                          Attach files
+                        </Label>
+                        <Input
+                          id="files"
+                          name="files"
+                          type="file"
+                          multiple
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
+                          className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-8 text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+
+            {/* Calendar Section - Right */}
+            <Card className="premium-card">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-white flex items-center gap-2 text-base">
+                  <Clock className="h-4 w-4 text-amber-400" />
+                  Select Dates & Times
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-0">
+                <div className="space-y-3">
+                  {sessionSlots.map((slot, index) => (
+                    <div
+                      key={slot.id}
+                      className="p-3 bg-black/30 rounded-lg border border-amber-500/30 backdrop-blur-sm"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="text-white font-medium text-sm">Session {index + 1}</h4>
+                        {sessionSlots.length > 1 && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeSessionSlot(slot.id)}
+                            className="text-red-400 hover:text-red-300 hover:bg-red-900/20 h-6 w-6 p-0"
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <div>
+                          <Label className="text-amber-300 text-xs mb-1 block">Date</Label>
+                          <div className="responsive-calendar-container">
+                            <Calendar
+                              mode="single"
+                              selected={slot.date}
+                              onSelect={(date) => updateSessionSlot(slot.id, "date", date)}
+                              className="responsive-calendar rounded-md border border-amber-500/30 bg-black/50 text-white backdrop-blur-sm"
+                              disabled={(date) => date < new Date() || date.getDay() === 0}
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label className="text-amber-300 text-xs mb-1 block">Time</Label>
+                          <div className="grid grid-cols-2 gap-1">
+                            {getTimeSlots(slot.date).map((time) => (
+                              <Button
+                                key={time}
+                                variant={slot.time === time ? "default" : "outline"}
+                                size="sm"
+                                className={`text-xs h-6 ${
+                                  slot.time === time
+                                    ? "btn-premium text-black"
+                                    : "border-amber-500/30 text-amber-200 hover:bg-amber-500/20 backdrop-blur-sm"
+                                }`}
+                                onClick={() => updateSessionSlot(slot.id, "time", time)}
+                              >
+                                {time}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  onClick={addSessionSlot}
+                  variant="outline"
+                  className={`w-full h-8 text-xs ${
+                    canAddMoreSessions()
+                      ? "border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black backdrop-blur-sm"
+                      : "border-amber-500/30 text-amber-500/50 cursor-not-allowed backdrop-blur-sm"
+                  }`}
+                  disabled={!canAddMoreSessions()}
+                >
+                  <Plus className="h-3 w-3 mr-1" />
+                  Add Session
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Bottom Row: Payment Summary (Centered) */}
+          <div className="bottom-row">
+            <Card className="premium-card">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-white flex items-center gap-2 text-base">
+                  <DollarSign className="h-4 w-4 text-amber-400" />
+                  Payment Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 pt-0">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                    <span className="text-amber-300 text-xs">Session Type:</span>
+                    <span className="text-white font-medium text-xs">
+                      {sessionType ? (sessionType === "1-on-1" ? "1-on-1" : `Group (${groupSize[0]})`) : "Not selected"}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                    <span className="text-amber-300 text-xs">Total Hours:</span>
+                    <span className="text-white font-medium text-xs">{getTotalHours()}</span>
+                  </div>
+
+                  <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                    <span className="text-amber-300 text-xs">Sessions:</span>
+                    <span className="text-white font-medium text-xs">{sessionSlots.length}</span>
+                  </div>
+
+                  {getFreeHours() > 0 && (
+                    <div className="flex justify-between items-center p-2 bg-green-900/30 border border-green-500/30 rounded-lg backdrop-blur-sm">
+                      <span className="text-green-300 text-xs">Free Hours:</span>
+                      <span className="text-green-400 font-medium text-xs">{getFreeHours()}</span>
+                    </div>
+                  )}
+
+                  <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                    <span className="text-amber-300 text-xs">Billable:</span>
+                    <span className="text-white font-medium text-xs">{getBillableHours()}</span>
+                  </div>
+
+                  <div className="border-t border-amber-500/30 pt-3">
+                    <div className="flex justify-between items-center p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg backdrop-blur-sm">
+                      <span className="text-amber-300 font-semibold text-xs">Total:</span>
+                      <span className="text-amber-400 font-bold text-lg text-glow-subtle">${getSessionPrice()}</span>
+                    </div>
+                  </div>
+
+                  {sessionSlots.length > 0 && (
+                    <div className="space-y-1">
+                      <h4 className="text-white font-medium text-xs">Schedule:</h4>
+                      {sessionSlots.map((slot, index) => (
+                        <div
+                          key={slot.id}
+                          className="text-xs p-2 bg-black/30 rounded border border-amber-500/30 backdrop-blur-sm"
+                        >
+                          <div className="text-amber-300">
+                            {index + 1}: {slot.date?.toLocaleDateString() || "No date"} at {slot.time || "No time"}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
 
-                <div>
-                  <Label className="text-white mb-2 block text-sm">Number of Sessions</Label>
-                  <Select value={numberOfSessions} onValueChange={setNumberOfSessions}>
-                    <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs">
-                      <SelectValue placeholder="Select hours" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((hours) => (
-                        <SelectItem
-                          key={hours}
-                          value={hours.toString()}
-                          className="text-white hover:bg-amber-500/20 text-xs"
-                        >
-                          {hours} Hour{hours > 1 ? "s" : ""}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-amber-400 mt-1">💡 Every 5 hours, get 1 free!</p>
-                </div>
-
-                <div>
-                  <Label htmlFor="name" className="text-white text-sm">
-                    Full Name
-                  </Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="email" className="text-white text-sm">
-                    Email Address
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-white text-sm">Subject</Label>
-                  <Select
-                    value={formData.subject}
-                    onValueChange={(value) => setFormData((prev) => ({ ...prev, subject: value }))}
-                  >
-                    <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs">
-                      <SelectValue placeholder="Select subject" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
-                      {subjects.map((subject) => (
-                        <SelectItem key={subject} value={subject} className="text-white hover:bg-amber-500/20 text-xs">
-                          {subject}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="notes" className="text-white text-sm">
-                    Notes & Files (Optional)
-                  </Label>
-                  <div className="p-3 border border-amber-500/30 rounded-lg bg-black/30 backdrop-blur-sm space-y-2">
-                    <Textarea
-                      id="notes"
-                      name="notes"
-                      value={formData.notes}
-                      onChange={handleInputChange}
-                      placeholder="Topics to focus on?"
-                      className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm text-xs"
-                      rows={2}
-                    />
-                    <div className="space-y-1">
-                      <Label htmlFor="files" className="text-amber-300 text-xs">
-                        Attach files
-                      </Label>
-                      <Input
-                        id="files"
-                        name="files"
-                        type="file"
-                        multiple
-                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
-                        className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-8 text-xs"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-
-          {/* Calendar Section - Second Column */}
-          <Card className="premium-card">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-white flex items-center gap-2 text-base">
-                <Clock className="h-4 w-4 text-amber-400" />
-                Select Dates & Times
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 pt-0">
-              <div className="space-y-3">
-                {sessionSlots.map((slot, index) => (
-                  <div key={slot.id} className="p-3 bg-black/30 rounded-lg border border-amber-500/30 backdrop-blur-sm">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-white font-medium text-sm">Session {index + 1}</h4>
-                      {sessionSlots.length > 1 && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeSessionSlot(slot.id)}
-                          className="text-red-400 hover:text-red-300 hover:bg-red-900/20 h-6 w-6 p-0"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <div>
-                        <Label className="text-amber-300 text-xs mb-1 block">Date</Label>
-                        <div className="responsive-calendar-container">
-                          <Calendar
-                            mode="single"
-                            selected={slot.date}
-                            onSelect={(date) => updateSessionSlot(slot.id, "date", date)}
-                            className="responsive-calendar rounded-md border border-amber-500/30 bg-black/50 text-white backdrop-blur-sm"
-                            disabled={(date) => date < new Date() || date.getDay() === 0}
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label className="text-amber-300 text-xs mb-1 block">Time</Label>
-                        <div className="grid grid-cols-2 gap-1">
-                          {getTimeSlots(slot.date).map((time) => (
-                            <Button
-                              key={time}
-                              variant={slot.time === time ? "default" : "outline"}
-                              size="sm"
-                              className={`text-xs h-6 ${
-                                slot.time === time
-                                  ? "btn-premium text-black"
-                                  : "border-amber-500/30 text-amber-200 hover:bg-amber-500/20 backdrop-blur-sm"
-                              }`}
-                              onClick={() => updateSessionSlot(slot.id, "time", time)}
-                            >
-                              {time}
-                            </Button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                onClick={addSessionSlot}
-                variant="outline"
-                className={`w-full h-8 text-xs ${
-                  canAddMoreSessions()
-                    ? "border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black backdrop-blur-sm"
-                    : "border-amber-500/30 text-amber-500/50 cursor-not-allowed backdrop-blur-sm"
-                }`}
-                disabled={!canAddMoreSessions()}
-              >
-                <Plus className="h-3 w-3 mr-1" />
-                Add Session
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Payment Summary - Third Column */}
-          <Card className="premium-card">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-white flex items-center gap-2 text-base">
-                <DollarSign className="h-4 w-4 text-amber-400" />
-                Payment Summary
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 pt-0">
-              <div className="space-y-3">
-                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300 text-xs">Session Type:</span>
-                  <span className="text-white font-medium text-xs">
-                    {sessionType ? (sessionType === "1-on-1" ? "1-on-1" : `Group (${groupSize[0]})`) : "Not selected"}
-                  </span>
-                </div>
-
-                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300 text-xs">Total Hours:</span>
-                  <span className="text-white font-medium text-xs">{getTotalHours()}</span>
-                </div>
-
-                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300 text-xs">Sessions:</span>
-                  <span className="text-white font-medium text-xs">{sessionSlots.length}</span>
-                </div>
-
-                {getFreeHours() > 0 && (
-                  <div className="flex justify-between items-center p-2 bg-green-900/30 border border-green-500/30 rounded-lg backdrop-blur-sm">
-                    <span className="text-green-300 text-xs">Free Hours:</span>
-                    <span className="text-green-400 font-medium text-xs">{getFreeHours()}</span>
-                  </div>
-                )}
-
-                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300 text-xs">Billable:</span>
-                  <span className="text-white font-medium text-xs">{getBillableHours()}</span>
-                </div>
-
-                <div className="border-t border-amber-500/30 pt-3">
-                  <div className="flex justify-between items-center p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg backdrop-blur-sm">
-                    <span className="text-amber-300 font-semibold text-xs">Total:</span>
-                    <span className="text-amber-400 font-bold text-lg text-glow-subtle">${getSessionPrice()}</span>
-                  </div>
-                </div>
-
-                {sessionSlots.length > 0 && (
-                  <div className="space-y-1">
-                    <h4 className="text-white font-medium text-xs">Schedule:</h4>
-                    {sessionSlots.map((slot, index) => (
-                      <div
-                        key={slot.id}
-                        className="text-xs p-2 bg-black/30 rounded border border-amber-500/30 backdrop-blur-sm"
-                      >
-                        <div className="text-amber-300">
-                          {index + 1}: {slot.date?.toLocaleDateString() || "No date"} at {slot.time || "No time"}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <Button
-                onClick={handleSubmit}
-                className="w-full btn-premium text-black font-medium py-2 text-sm"
-                disabled={!isFormValid() || isSubmitting}
-              >
-                {isSubmitting ? "Booking..." : "Book Session(s)"}
-              </Button>
-            </CardContent>
-          </Card>
+                <Button
+                  onClick={handleSubmit}
+                  className="w-full btn-premium text-black font-medium py-2 text-sm"
+                  disabled={!isFormValid() || isSubmitting}
+                >
+                  {isSubmitting ? "Booking..." : "Book Session(s)"}
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

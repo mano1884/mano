@@ -387,7 +387,6 @@ export default function BookingPage() {
                         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
                         className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-8 text-xs"
                       />
-                      <p className="text-xs text-amber-300/70">Files will be sent to unitutors7@gmail.com</p>
                     </div>
                   </div>
                 </div>

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
       await request.json()
 
     // Create a transporter using your environment variables
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_SERVER_HOST,
       port: Number(process.env.EMAIL_SERVER_PORT),
       secure: false, // true for 465, false for other ports

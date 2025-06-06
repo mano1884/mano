@@ -139,7 +139,6 @@ export default function BookingSuccessPage() {
                     <p className="text-gray-300 mb-3 text-sm">
                       We'll contact you within 24 hours to confirm your sessions and provide payment details.
                     </p>
-                    <p className="text-xs text-green-300">Get ready to excel in your studies! 📚</p>
                   </CardContent>
                 </Card>
               </div>
@@ -152,9 +151,8 @@ export default function BookingSuccessPage() {
                     If you have any questions about your booking, don't hesitate to reach out!
                   </p>
                   <div className="flex justify-center items-center">
-                    <div className="flex items-center gap-2 text-amber-300">
-                      <Mail className="h-4 w-4" />
-                      <span className="text-sm">unitutors7@gmail.com</span>
+                    <div className="flex items-center gap-1 text-amber-300">
+                      <span className="text-sm">📧 unitutors7@gmail.com | 📞 70302418</span>
                     </div>
                   </div>
                 </CardContent>
@@ -180,7 +178,7 @@ export default function BookingSuccessPage() {
               {/* Fun Message */}
               <div className="p-4 bg-gradient-to-r from-amber-500/10 to-amber-600/10 rounded-lg border border-amber-500/30">
                 <p className="text-base text-amber-300 font-medium text-center">
-                  🌟 Welcome to the UniTutors family! We're excited to help you achieve academic excellence! 🌟
+                  🌟 Welcome to the UniTutors family! 🌟
                 </p>
               </div>
             </div>

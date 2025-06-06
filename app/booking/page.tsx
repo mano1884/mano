@@ -52,8 +52,33 @@ export default function BookingPage() {
       }
     }
 
+    // Preload images for booking page too
+    const preloadImages = async () => {
+      try {
+        const imagePromises = [
+          new Promise<void>((resolve, reject) => {
+            const img = new Image()
+            img.onload = () => resolve()
+            img.onerror = () => reject(new Error("Failed to load logo"))
+            img.src = "/images/unitutors-logo-new.png"
+          }),
+          new Promise<void>((resolve, reject) => {
+            const img = new Image()
+            img.onload = () => resolve()
+            img.onerror = () => reject(new Error("Failed to load see you soon image"))
+            img.src = "/images/see-you-soon.png"
+          }),
+        ]
+
+        await Promise.all(imagePromises)
+      } catch (error) {
+        console.log("Image preloading failed, continuing anyway:", error)
+      }
+    }
+
     checkMobile()
     window.addEventListener("resize", checkMobile)
+    preloadImages()
 
     return () => {
       window.removeEventListener("resize", checkMobile)

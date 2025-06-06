@@ -177,6 +177,30 @@
     min-width: calc(100vw / 0.35) !important;
     height: calc(100vh / 0.35) !important;
   }
+
+  /* Fix calendar alignment on mobile */
+  .desktop-mode .rdp {
+    font-size: 0.75rem !important;
+  }
+
+  .desktop-mode .rdp-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .desktop-mode .rdp-cell {
+    text-align: center !important;
+    padding: 0.25rem !important;
+    width: 14.28% !important;
+  }
+
+  .desktop-mode .rdp-day {
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
@@ -185,6 +209,30 @@
     width: calc(100vw / 0.45) !important;
     min-width: calc(100vw / 0.45) !important;
     height: calc(100vh / 0.45) !important;
+  }
+
+  /* Fix calendar alignment on tablets */
+  .desktop-mode .rdp {
+    font-size: 0.8rem !important;
+  }
+
+  .desktop-mode .rdp-table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .desktop-mode .rdp-cell {
+    text-align: center !important;
+    padding: 0.3rem !important;
+    width: 14.28% !important;
+  }
+
+  .desktop-mode .rdp-day {
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 

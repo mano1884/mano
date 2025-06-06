@@ -32,21 +32,50 @@ export default function Home() {
       }
     }
 
-    // Preload critical images
+    // Preload ALL critical images including tutor avatars
     const preloadImages = async () => {
       try {
         const imagePromises = [
+          // Main logo
           new Promise<void>((resolve, reject) => {
             const img = new Image()
             img.onload = () => resolve()
             img.onerror = () => reject(new Error("Failed to load logo"))
             img.src = "/images/unitutors-logo-new.png"
           }),
+          // Emanuel's avatar
+          new Promise<void>((resolve, reject) => {
+            const img = new Image()
+            img.onload = () => resolve()
+            img.onerror = () => reject(new Error("Failed to load Emanuel avatar"))
+            img.src = "/images/emanuel-avatar.png"
+          }),
+          // Coming soon avatars
+          new Promise<void>((resolve, reject) => {
+            const img = new Image()
+            img.onload = () => resolve()
+            img.onerror = () => reject(new Error("Failed to load coming soon avatar 1"))
+            img.src = "/images/coming-soon-avatar-1.png"
+          }),
+          new Promise<void>((resolve, reject) => {
+            const img = new Image()
+            img.onload = () => resolve()
+            img.onerror = () => reject(new Error("Failed to load coming soon avatar 2"))
+            img.src = "/images/coming-soon-avatar-2.png"
+          }),
+          // Success page image
+          new Promise<void>((resolve, reject) => {
+            const img = new Image()
+            img.onload = () => resolve()
+            img.onerror = () => reject(new Error("Failed to load see you soon image"))
+            img.src = "/images/see-you-soon.png"
+          }),
         ]
 
         await Promise.all(imagePromises)
+        console.log("All images preloaded successfully!")
       } catch (error) {
-        console.log("Image preloading failed, continuing anyway:", error)
+        console.log("Some images failed to preload, continuing anyway:", error)
       }
 
       // Add a small delay to ensure smooth transition

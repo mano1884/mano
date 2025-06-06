@@ -181,6 +181,7 @@ export default function BookingPage() {
           totalAmount: getSessionPrice(),
           sessionType: sessionTypeText,
           numberOfSessions: getTotalHours(),
+          notes: formData.notes, // Include notes in the email
         }),
       })
 
@@ -386,6 +387,7 @@ export default function BookingPage() {
                         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
                         className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-8 text-xs"
                       />
+                      <p className="text-xs text-amber-300/70">Files will be sent to unitutors7@gmail.com</p>
                     </div>
                   </div>
                 </div>
@@ -540,7 +542,7 @@ export default function BookingPage() {
                 className="w-full btn-premium text-black font-medium py-2 text-sm"
                 disabled={!isFormValid() || isSubmitting}
               >
-                {isSubmitting ? "Sending..." : "Book Session(s)"}
+                {isSubmitting ? "Booking..." : "Book Session(s)"}
               </Button>
             </CardContent>
           </Card>

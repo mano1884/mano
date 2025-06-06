@@ -3,10 +3,11 @@ import nodemailer from "nodemailer"
 
 export async function POST(request: Request) {
   try {
-    const { name, email, subject, sessionDetails, totalAmount, sessionType, numberOfSessions } = await request.json()
+    const { name, email, subject, sessionDetails, totalAmount, sessionType, numberOfSessions, notes } =
+      await request.json()
 
     // Create a transporter using your environment variables
-    const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransporter({
       host: process.env.EMAIL_SERVER_HOST,
       port: Number(process.env.EMAIL_SERVER_PORT),
       secure: false, // true for 465, false for other ports
@@ -78,13 +79,27 @@ export async function POST(request: Request) {
           </div>
         </div>
         
+        ${
+          notes
+            ? `
+        <!-- Additional Notes -->
+        <div style="background-color: #e8f5e8; padding: 25px; border-radius: 8px; border: 1px solid #4caf50; margin-bottom: 25px;">
+          <h3 style="color: #4caf50; margin-top: 0; margin-bottom: 15px;">Additional Notes</h3>
+          <div style="color: #666; line-height: 1.6;">
+            ${notes}
+          </div>
+        </div>
+        `
+            : ""
+        }
+        
         <!-- Contact Information -->
         <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px; margin-bottom: 25px;">
           <p style="color: #666; margin: 0 0 10px 0;">
             Questions about your booking?
           </p>
           <p style="color: #f59e0b; font-weight: bold; margin: 0;">
-            📧 support@unitutors.com | 📞 (555) 123-4567
+            📧 unitutors7@gmail.com
           </p>
         </div>
         
@@ -131,6 +146,7 @@ export async function POST(request: Request) {
         <p><strong>Total Amount:</strong> $${totalAmount}</p>
         <p><strong>Schedule:</strong></p>
         <div>${sessionDetails}</div>
+        ${notes ? `<p><strong>Additional Notes:</strong></p><div>${notes}</div>` : ""}
       `,
     })
 

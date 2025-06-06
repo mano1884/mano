@@ -38,16 +38,16 @@ export default function BookingSuccessPage() {
             <p className="text-xl text-gray-300 mb-8">Your tutoring session has been successfully scheduled</p>
           </div>
 
-          {/* Character Image */}
+          {/* Character Image - Made Larger */}
           <div className="mb-12 flex justify-center">
             <div className="relative">
               <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-3xl scale-150"></div>
               <Image
                 src="/images/see-you-soon.png"
                 alt="See you soon!"
-                width={300}
-                height={300}
-                className="relative z-10 w-full max-w-[300px] h-auto"
+                width={450}
+                height={450}
+                className="relative z-10 w-full max-w-[450px] h-auto"
                 priority
               />
             </div>
@@ -78,21 +78,17 @@ export default function BookingSuccessPage() {
             </Card>
           </div>
 
-          {/* Contact Information */}
+          {/* Contact Information - Removed Phone Number */}
           <Card className="premium-card mb-8">
             <CardContent className="p-8 text-center">
               <h3 className="text-2xl font-bold text-white mb-4">Need Help?</h3>
               <p className="text-gray-300 mb-6">
                 If you have any questions about your booking, don't hesitate to reach out!
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="flex justify-center items-center">
                 <div className="flex items-center gap-2 text-amber-300">
                   <Mail className="h-5 w-5" />
                   <span>unitutors7@gmail.com</span>
-                </div>
-                <div className="hidden sm:block text-gray-500">|</div>
-                <div className="flex items-center gap-2 text-amber-300">
-                  <span>📞 (555) 123-4567</span>
                 </div>
               </div>
             </CardContent>

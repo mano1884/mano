@@ -6,7 +6,6 @@ import { Hero } from "@/components/hero"
 import { Features } from "@/components/features"
 import { Tutors } from "@/components/tutors"
 import { Subjects } from "@/components/subjects"
-import { Testimonials } from "@/components/testimonials"
 import { Contact } from "@/components/contact"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -68,7 +67,7 @@ export default function Home() {
             const img = new Image()
             img.onload = () => resolve()
             img.onerror = () => reject(new Error("Failed to load see you soon image"))
-            img.src = "/images/see-you-soon.png"
+            img.src = "/images/see-you-soon-nobg.png"
           }),
         ]
 
@@ -150,7 +149,6 @@ export default function Home() {
         <Features />
         <Tutors />
         <Subjects />
-        <Testimonials />
         <Contact />
         <Footer />
       </main>

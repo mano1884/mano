@@ -31,12 +31,6 @@ export function Navbar() {
           <Link href="#subjects" className="text-sm font-medium text-gray-200 hover:text-amber-400 transition-colors">
             Subjects
           </Link>
-          <Link
-            href="#testimonials"
-            className="text-sm font-medium text-gray-200 hover:text-amber-400 transition-colors"
-          >
-            Testimonials
-          </Link>
           <button
             onClick={() => {
               document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })

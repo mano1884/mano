@@ -12,8 +12,14 @@ import { Footer } from "@/components/footer"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1200)
+    }
+
     // Preload critical images
     const preloadImages = async () => {
       try {
@@ -37,7 +43,13 @@ export default function Home() {
       }, 800)
     }
 
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
     preloadImages()
+
+    return () => {
+      window.removeEventListener("resize", checkMobile)
+    }
   }, [])
 
   if (isLoading) {
@@ -52,7 +64,7 @@ export default function Home() {
   }
 
   return (
-    <div className="fixed inset-0 gradient-variation-4 overflow-auto">
+    <div className={`fixed inset-0 gradient-variation-4 overflow-auto ${isMobile ? "mobile-scale" : ""}`}>
       <main className="min-h-screen">
         <Navbar />
         <Hero />

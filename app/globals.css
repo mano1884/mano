@@ -35,31 +35,24 @@
     @apply bg-background text-foreground;
     margin: 0;
     padding: 0;
-    min-width: 1200px; /* Force minimum width */
+    width: 100%;
+    overflow-x: hidden;
   }
   html {
     scroll-behavior: smooth;
-    min-width: 1200px; /* Force minimum width */
+    width: 100%;
+    overflow-x: hidden;
   }
 }
 
-/* Force desktop layout on all devices */
-@media screen and (max-width: 1199px) {
-  body {
-    min-width: 1200px;
-    overflow-x: auto;
-  }
-
-  .container {
-    min-width: 1200px !important;
-    width: 1200px !important;
-  }
-
-  /* Ensure booking page maintains desktop layout */
-  .booking-container {
-    min-width: 1200px !important;
-    width: 1200px !important;
-  }
+/* Desktop-first approach */
+.container,
+.booking-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 /* ORIGINAL VERSION - Current animated gradient */
@@ -152,38 +145,35 @@
   transition: opacity 0.5s ease;
 }
 
-/* Mobile fixes - force desktop layout */
-@media screen and (max-width: 768px) {
-  /* Force all text to be readable */
-  .text-xs {
-    font-size: 0.65rem !important;
-  }
-  .text-sm {
-    font-size: 0.75rem !important;
-  }
-  .text-base {
-    font-size: 0.85rem !important;
-  }
-  .text-lg {
-    font-size: 0.95rem !important;
+/* Mobile styles - ensure desktop-like experience */
+@media screen and (max-width: 1200px) {
+  html,
+  body {
+    min-width: 1200px;
+    overflow-x: auto;
   }
 
-  /* Ensure buttons are tappable */
-  button,
-  .btn-premium {
-    min-height: 32px !important;
-    padding: 4px 8px !important;
+  body {
+    position: relative;
+    width: 1200px;
   }
 
-  /* Make cards more compact */
-  .premium-card {
-    padding: 12px !important;
+  #__next,
+  main {
+    width: 1200px;
   }
 
-  /* Ensure grid layouts work */
-  .grid-cols-3 {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 0.5rem !important;
+  .container,
+  .booking-container {
+    min-width: 1200px;
+    width: 1200px;
+  }
+
+  /* Scale down for mobile but maintain aspect ratio */
+  .mobile-scale {
+    transform-origin: top left;
+    transform: scale(0.33);
+    width: 300%;
+    height: 300%;
   }
 }

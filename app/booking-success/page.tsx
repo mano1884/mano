@@ -9,16 +9,29 @@ import { CheckCircle, ArrowLeft, Mail, Clock } from "lucide-react"
 
 export default function BookingSuccessPage() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1200)
+    }
+
     // Animate in the content
     setTimeout(() => setIsVisible(true), 300)
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => {
+      window.removeEventListener("resize", checkMobile)
+    }
   }, [])
 
   return (
-    <div className="min-h-screen animated-gradient text-white relative">
+    <div className={`min-h-screen animated-gradient text-white relative ${isMobile ? "mobile-scale" : ""}`}>
       <div className="absolute inset-0 gold-pattern"></div>
-      <div className="container mx-auto py-8 relative z-10" style={{ width: "1200px", maxWidth: "100%" }}>
+      <div className="container mx-auto py-8 relative z-10">
         {/* Back Button */}
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300">

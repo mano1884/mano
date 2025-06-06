@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,12 +27,27 @@ export default function BookingPage() {
   const [numberOfSessions, setNumberOfSessions] = useState("")
   const [sessionSlots, setSessionSlots] = useState<SessionSlot[]>([{ id: "1", date: new Date(), time: "" }])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     notes: "",
   })
+
+  useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1200)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => {
+      window.removeEventListener("resize", checkMobile)
+    }
+  }, [])
 
   // Get available time slots based on the day of the week
   const getTimeSlots = (date: Date | undefined) => {
@@ -216,12 +231,9 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="min-h-screen animated-gradient text-white relative">
+    <div className={`min-h-screen animated-gradient text-white relative ${isMobile ? "mobile-scale" : ""}`}>
       <div className="absolute inset-0 gold-pattern"></div>
-      <div
-        className="booking-container mx-auto py-4 relative z-10"
-        style={{ width: "1200px", maxWidth: "100%", minWidth: "1200px" }}
-      >
+      <div className="booking-container mx-auto py-4 relative z-10">
         <div className="mb-6 px-4">
           <Link href="/" className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300">
             <ArrowLeft className="h-4 w-4" />
@@ -234,7 +246,7 @@ export default function BookingPage() {
           <p className="text-gray-300 text-base">Schedule sessions with Mr. Emanuel Youssef</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 px-4" style={{ minWidth: "1200px" }}>
+        <div className="grid grid-cols-3 gap-4 px-4">
           {/* Session Details Form - First Column */}
           <Card className="premium-card">
             <CardHeader className="pb-4">

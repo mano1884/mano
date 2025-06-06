@@ -93,7 +93,7 @@ export async function POST(request: Request) {
             Questions about your booking?
           </p>
           <p style="color: #f59e0b; font-weight: bold; margin: 0;">
-            📧 unitutors7@gmail.com
+            Simply reply to this message and we'll get back to you!
           </p>
         </div>
         
@@ -124,6 +124,7 @@ export async function POST(request: Request) {
       to: email,
       subject: "UniTutors - Booking Confirmation",
       html: emailHtml,
+      replyTo: process.env.EMAIL_FROM, // Add reply-to for easy replies
     })
 
     // Send notification to admin (optional)

@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
-import { ArrowLeft, Clock, DollarSign, User, Users, Plus, X } from "lucide-react"
+import { ArrowLeft, Clock, DollarSign, User, Users, Plus, X } from 'lucide-react'
 import Link from "next/link"
 import Image from "next/image"
 
@@ -531,7 +531,7 @@ export default function BookingPage() {
                               selected={slot.date}
                               onSelect={(date) => updateSessionSlot(slot.id, "date", date)}
                               className="responsive-calendar rounded-md border border-amber-500/30 bg-black/50 text-white backdrop-blur-sm"
-                              disabled={(date) => date < new Date() || date.getDay() === 0}
+                              disabled={(date) => date < new Date()}
                             />
                           </div>
                         </div>

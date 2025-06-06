@@ -35,41 +35,21 @@
     @apply bg-background text-foreground;
     margin: 0;
     padding: 0;
-    width: 1200px !important;
-    overflow-x: auto;
-    min-width: 1200px !important;
   }
   html {
     scroll-behavior: smooth;
-    overflow-x: auto;
-    min-width: 1200px !important;
   }
 }
 
-/* Force desktop layout on all devices */
-html,
-body {
-  width: 1200px !important;
-  min-width: 1200px !important;
-  max-width: 1200px !important;
-  overflow-x: auto !important;
-}
-
-.desktop-container {
-  width: 1200px !important;
-  min-width: 1200px !important;
-  max-width: 1200px !important;
-}
-
-/* Container styles */
+/* Container styles - ChatGPT's suggestion */
 .container,
 .booking-container {
-  width: 1200px !important;
-  min-width: 1200px !important;
-  max-width: 1200px !important;
+  min-width: 1200px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 /* ORIGINAL VERSION - Current animated gradient */
@@ -160,45 +140,4 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
-}
-
-/* Mobile fixes - force desktop layout */
-@media screen and (max-width: 1200px) {
-  body,
-  html,
-  #__next,
-  main,
-  .container,
-  .booking-container {
-    width: 1200px !important;
-    min-width: 1200px !important;
-    max-width: 1200px !important;
-    overflow-x: auto !important;
-  }
-
-  /* Ensure all text is readable */
-  .text-xs {
-    font-size: 0.75rem !important;
-  }
-  .text-sm {
-    font-size: 0.875rem !important;
-  }
-  .text-base {
-    font-size: 1rem !important;
-  }
-  .text-lg {
-    font-size: 1.125rem !important;
-  }
-
-  /* Ensure buttons are tappable */
-  button,
-  .btn-premium {
-    min-height: 32px !important;
-  }
-
-  /* Ensure grid layouts work */
-  .grid-cols-3 {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
 }

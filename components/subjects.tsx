@@ -54,12 +54,12 @@ export function Subjects() {
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white text-glow-subtle">Subjects We Cover</h2>
+          <h2 className="text-4xl font-bold mb-4 text-white text-glow-subtle">Subjects We Cover</h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             We offer expert tutoring across a wide range of university subjects and disciplines.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           {subjectCategories.map((category, index) => (
             <Card
               key={index}

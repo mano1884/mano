@@ -39,9 +39,9 @@ export function Tutors() {
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white text-glow-subtle">Meet Our Expert Tutors</h2>
+          <h2 className="text-4xl font-bold mb-4 text-white text-glow-subtle">Meet Our Expert Tutors</h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-6 justify-center">
+        <div className="grid grid-cols-3 gap-6 justify-center">
           {tutors.map((tutor, index) => (
             <Card
               key={index}

@@ -14,12 +14,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Force desktop width
-    document.body.style.width = "1200px"
-    document.body.style.minWidth = "1200px"
-    document.documentElement.style.width = "1200px"
-    document.documentElement.style.minWidth = "1200px"
-
     // Preload critical images
     const preloadImages = async () => {
       try {
@@ -58,8 +52,8 @@ export default function Home() {
   }
 
   return (
-    <div className="fixed inset-0 gradient-variation-4 overflow-auto" style={{ width: "1200px", minWidth: "1200px" }}>
-      <main className="min-h-screen" style={{ width: "1200px", minWidth: "1200px" }}>
+    <div className="fixed inset-0 gradient-variation-4 overflow-auto">
+      <main className="min-h-screen min-w-[1200px]">
         <Navbar />
         <Hero />
         <Features />

@@ -54,12 +54,12 @@ export function Testimonials() {
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white text-glow-subtle">What Our Students Say</h2>
+          <h2 className="text-4xl font-bold mb-4 text-white text-glow-subtle">What Our Students Say</h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Hear from students who have transformed their academic performance with UniTutors.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           {testimonials.map((testimonial, index) => (
             <Card key={index} className="premium-card">
               <CardContent className="p-6">

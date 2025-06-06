@@ -2,11 +2,11 @@ import Image from "next/image"
 
 export function Hero() {
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
+    <section className="relative py-20 overflow-hidden">
       <div className="absolute inset-0 gold-pattern"></div>
-      <div className="container grid md:grid-cols-2 gap-8 items-center relative z-10">
+      <div className="container grid grid-cols-2 gap-8 items-center relative z-10">
         <div className="flex flex-col gap-6">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-glow">
+          <h1 className="text-6xl font-bold tracking-tight text-glow">
             Expert Tutoring for <span className="text-amber-400 text-glow-subtle">University Students</span>
           </h1>
           <p className="text-lg text-gray-200">Get taught by the best. Here, excellence is the standard.</p>

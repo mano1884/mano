@@ -3,7 +3,6 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X } from "lucide-react"
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -22,7 +21,7 @@ export function Navbar() {
             quality={90}
           />
         </Link>
-        <nav className="hidden md:flex gap-6 items-center">
+        <nav className="flex gap-6 items-center">
           <Link href="#features" className="text-sm font-medium text-gray-200 hover:text-amber-400 transition-colors">
             Why UniTutors
           </Link>
@@ -47,51 +46,7 @@ export function Navbar() {
             Become a Tutor
           </button>
         </nav>
-        <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
       </div>
-      {isMenuOpen && (
-        <div className="md:hidden absolute top-16 left-0 right-0 backdrop-blur-md bg-black/20 border-b border-amber-500/20 p-4 flex flex-col gap-4">
-          <Link
-            href="#features"
-            className="text-sm font-medium p-2 text-gray-200 hover:bg-amber-500/10 rounded-md transition-colors"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Why UniTutors
-          </Link>
-          <Link
-            href="#tutors"
-            className="text-sm font-medium p-2 text-gray-200 hover:bg-amber-500/10 rounded-md transition-colors"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Our Tutors
-          </Link>
-          <Link
-            href="#subjects"
-            className="text-sm font-medium p-2 text-gray-200 hover:bg-amber-500/10 rounded-md transition-colors"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Subjects
-          </Link>
-          <Link
-            href="#testimonials"
-            className="text-sm font-medium p-2 text-gray-200 hover:bg-amber-500/10 rounded-md transition-colors"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Testimonials
-          </Link>
-          <button
-            onClick={() => {
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
-              setIsMenuOpen(false)
-            }}
-            className="text-sm font-medium p-2 text-gray-200 hover:bg-amber-500/10 rounded-md transition-colors text-left"
-          >
-            Become a Tutor
-          </button>
-        </div>
-      )}
     </header>
   )
 }

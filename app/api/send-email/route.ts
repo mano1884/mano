@@ -51,24 +51,18 @@ export async function POST(request: Request) {
         <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 25px;">
           <h3 style="color: #f59e0b; margin-top: 0; margin-bottom: 15px;">Booking Summary</h3>
           
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 8px 0; color: #333; font-weight: bold; width: 40%;">Subject:</td>
-              <td style="padding: 8px 0; color: #666;">${subject}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; color: #333; font-weight: bold;">Session Type:</td>
-              <td style="padding: 8px 0; color: #666;">${sessionType}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; color: #333; font-weight: bold;">Number of Sessions:</td>
-              <td style="padding: 8px 0; color: #666;">${numberOfSessions} hour${numberOfSessions > 1 ? "s" : ""}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; color: #333; font-weight: bold;">Total Amount:</td>
-              <td style="padding: 8px 0; color: #f59e0b; font-weight: bold; font-size: 18px;">$${totalAmount}</td>
-            </tr>
-          </table>
+          <p style="margin: 8px 0; color: #333; line-height: 1.6;">
+            <strong>Subject:</strong>   <span style="color: #f59e0b;">${subject}</span>
+          </p>
+          <p style="margin: 8px 0; color: #333; line-height: 1.6;">
+            <strong>Session Type:</strong>   <span style="color: #f59e0b;">${sessionType}</span>
+          </p>
+          <p style="margin: 8px 0; color: #333; line-height: 1.6;">
+            <strong>Number of Sessions:</strong>   <span style="color: #f59e0b;">${numberOfSessions} hour${numberOfSessions > 1 ? "s" : ""}</span>
+          </p>
+          <p style="margin: 8px 0; color: #333; line-height: 1.6;">
+            <strong>Total Amount:</strong>   <span style="color: #f59e0b; font-size: 14px;">$${totalAmount}</span>
+          </p>
         </div>
         
         <!-- Session Schedule -->

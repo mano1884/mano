@@ -217,48 +217,54 @@ export default function BookingPage() {
   return (
     <div className="min-h-screen animated-gradient text-white relative">
       <div className="absolute inset-0 gold-pattern"></div>
-      <div className="container mx-auto py-8 relative z-10" style={{ width: "1200px", maxWidth: "100%" }}>
-        <div className="mb-8">
+      <div
+        className="booking-container mx-auto py-4 relative z-10"
+        style={{ width: "1200px", maxWidth: "100%", minWidth: "1200px" }}
+      >
+        <div className="mb-6 px-4">
           <Link href="/" className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300">
             <ArrowLeft className="h-4 w-4" />
             Back to Home
           </Link>
         </div>
 
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-white text-glow-subtle">Book Your Tutoring Session</h1>
-          <p className="text-gray-300 text-lg">Schedule sessions with Mr. Emanuel Youssef</p>
+        <div className="text-center mb-8 px-4">
+          <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Book Your Tutoring Session</h1>
+          <p className="text-gray-300 text-base">Schedule sessions with Mr. Emanuel Youssef</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-3 gap-4 px-4" style={{ minWidth: "1200px" }}>
           {/* Session Details Form - First Column */}
           <Card className="premium-card">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <User className="h-5 w-5 text-amber-400" />
+            <CardHeader className="pb-4">
+              <CardTitle className="text-white flex items-center gap-2 text-base">
+                <User className="h-4 w-4 text-amber-400" />
                 Session Details
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <CardContent className="pt-0">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <Label className="text-white mb-2 block">Session Type</Label>
+                  <Label className="text-white mb-2 block text-sm">Session Type</Label>
                   <RadioGroup value={sessionType} onValueChange={setSessionType}>
-                    <div className="flex items-center space-x-2 p-3 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
+                    <div className="flex items-center space-x-2 p-2 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
                       <RadioGroupItem value="1-on-1" id="one-on-one" />
                       <Label
                         htmlFor="one-on-one"
-                        className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1"
+                        className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1 text-xs"
                       >
-                        <User className="h-4 w-4" />
+                        <User className="h-3 w-3" />
                         1-on-1 Session
                         <span className="text-amber-400 font-semibold ml-auto">$25/hour</span>
                       </Label>
                     </div>
-                    <div className="flex items-center space-x-2 p-3 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
+                    <div className="flex items-center space-x-2 p-2 border border-amber-500/30 rounded-md hover:bg-amber-500/10 transition-colors">
                       <RadioGroupItem value="group" id="group" />
-                      <Label htmlFor="group" className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1">
-                        <Users className="h-4 w-4" />
+                      <Label
+                        htmlFor="group"
+                        className="text-gray-200 flex items-center gap-2 cursor-pointer flex-1 text-xs"
+                      >
+                        <Users className="h-3 w-3" />
                         Group Session
                         <span className="text-amber-400 font-semibold ml-auto">${getGroupPrice()}/hour</span>
                       </Label>
@@ -266,8 +272,8 @@ export default function BookingPage() {
                   </RadioGroup>
 
                   {sessionType === "group" && (
-                    <div className="mt-4 p-4 premium-card rounded-lg">
-                      <Label className="text-white mb-3 block">Group Size: {groupSize[0]} persons</Label>
+                    <div className="mt-3 p-3 premium-card rounded-lg">
+                      <Label className="text-white mb-2 block text-xs">Group Size: {groupSize[0]} persons</Label>
                       <Slider
                         value={groupSize}
                         onValueChange={setGroupSize}
@@ -276,34 +282,38 @@ export default function BookingPage() {
                         step={1}
                         className="w-full"
                       />
-                      <div className="flex justify-between text-xs text-amber-300 mt-2">
-                        <span>2 persons ($35/hour)</span>
-                        <span>3 persons ($45/hour)</span>
-                        <span>4 persons ($55/hour)</span>
+                      <div className="flex justify-between text-xs text-amber-300 mt-1">
+                        <span>2 ($35/hr)</span>
+                        <span>3 ($45/hr)</span>
+                        <span>4 ($55/hr)</span>
                       </div>
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <Label className="text-white mb-2 block">Number of Sessions</Label>
+                  <Label className="text-white mb-2 block text-sm">Number of Sessions</Label>
                   <Select value={numberOfSessions} onValueChange={setNumberOfSessions}>
-                    <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm">
-                      <SelectValue placeholder="Select number of hours" />
+                    <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs">
+                      <SelectValue placeholder="Select hours" />
                     </SelectTrigger>
                     <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((hours) => (
-                        <SelectItem key={hours} value={hours.toString()} className="text-white hover:bg-amber-500/20">
+                        <SelectItem
+                          key={hours}
+                          value={hours.toString()}
+                          className="text-white hover:bg-amber-500/20 text-xs"
+                        >
                           {hours} Hour{hours > 1 ? "s" : ""}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-amber-400 mt-1">💡 Every 5 hours, get 1 hour free!</p>
+                  <p className="text-xs text-amber-400 mt-1">💡 Every 5 hours, get 1 free!</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="name" className="text-white">
+                  <Label htmlFor="name" className="text-white text-sm">
                     Full Name
                   </Label>
                   <Input
@@ -311,13 +321,13 @@ export default function BookingPage() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm"
+                    className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs"
                     required
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="email" className="text-white">
+                  <Label htmlFor="email" className="text-white text-sm">
                     Email Address
                   </Label>
                   <Input
@@ -326,23 +336,23 @@ export default function BookingPage() {
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm"
+                    className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs"
                     required
                   />
                 </div>
 
                 <div>
-                  <Label className="text-white">Subject</Label>
+                  <Label className="text-white text-sm">Subject</Label>
                   <Select
                     value={formData.subject}
                     onValueChange={(value) => setFormData((prev) => ({ ...prev, subject: value }))}
                   >
-                    <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm">
-                      <SelectValue placeholder="Select a subject" />
+                    <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm h-8 text-xs">
+                      <SelectValue placeholder="Select subject" />
                     </SelectTrigger>
                     <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
                       {subjects.map((subject) => (
-                        <SelectItem key={subject} value={subject} className="text-white hover:bg-amber-500/20">
+                        <SelectItem key={subject} value={subject} className="text-white hover:bg-amber-500/20 text-xs">
                           {subject}
                         </SelectItem>
                       ))}
@@ -350,23 +360,23 @@ export default function BookingPage() {
                   </Select>
                 </div>
 
-                <div className="space-y-3">
-                  <Label htmlFor="notes" className="text-white">
-                    Additional Notes & Files (Optional)
+                <div className="space-y-2">
+                  <Label htmlFor="notes" className="text-white text-sm">
+                    Notes & Files (Optional)
                   </Label>
-                  <div className="p-4 border border-amber-500/30 rounded-lg bg-black/30 backdrop-blur-sm space-y-3">
+                  <div className="p-3 border border-amber-500/30 rounded-lg bg-black/30 backdrop-blur-sm space-y-2">
                     <Textarea
                       id="notes"
                       name="notes"
                       value={formData.notes}
                       onChange={handleInputChange}
-                      placeholder="Any specific topics you'd like to focus on?"
-                      className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm"
-                      rows={3}
+                      placeholder="Topics to focus on?"
+                      className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm text-xs"
+                      rows={2}
                     />
-                    <div className="space-y-2">
-                      <Label htmlFor="files" className="text-amber-300 text-sm">
-                        Attach files (homework, assignments, etc.)
+                    <div className="space-y-1">
+                      <Label htmlFor="files" className="text-amber-300 text-xs">
+                        Attach files
                       </Label>
                       <Input
                         id="files"
@@ -374,9 +384,8 @@ export default function BookingPage() {
                         type="file"
                         multiple
                         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
-                        className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-3 file:py-1 file:mr-3 backdrop-blur-sm"
+                        className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-8 text-xs"
                       />
-                      <p className="text-xs text-amber-300/70">Supported formats: PDF, DOC, DOCX, JPG, PNG, TXT</p>
                     </div>
                   </div>
                 </div>
@@ -386,51 +395,51 @@ export default function BookingPage() {
 
           {/* Calendar Section - Second Column */}
           <Card className="premium-card">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <Clock className="h-5 w-5 text-amber-400" />
+            <CardHeader className="pb-4">
+              <CardTitle className="text-white flex items-center gap-2 text-base">
+                <Clock className="h-4 w-4 text-amber-400" />
                 Select Dates & Times
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
+            <CardContent className="space-y-4 pt-0">
+              <div className="space-y-3">
                 {sessionSlots.map((slot, index) => (
-                  <div key={slot.id} className="p-4 bg-black/30 rounded-lg border border-amber-500/30 backdrop-blur-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-white font-medium">Session {index + 1}</h4>
+                  <div key={slot.id} className="p-3 bg-black/30 rounded-lg border border-amber-500/30 backdrop-blur-sm">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-white font-medium text-sm">Session {index + 1}</h4>
                       {sessionSlots.length > 1 && (
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => removeSessionSlot(slot.id)}
-                          className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
+                          className="text-red-400 hover:text-red-300 hover:bg-red-900/20 h-6 w-6 p-0"
                         >
-                          <X className="h-4 w-4" />
+                          <X className="h-3 w-3" />
                         </Button>
                       )}
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       <div>
-                        <Label className="text-amber-300 text-sm mb-1 block">Date</Label>
+                        <Label className="text-amber-300 text-xs mb-1 block">Date</Label>
                         <Calendar
                           mode="single"
                           selected={slot.date}
                           onSelect={(date) => updateSessionSlot(slot.id, "date", date)}
-                          className="rounded-md border border-amber-500/30 bg-black/50 text-white w-full backdrop-blur-sm"
+                          className="rounded-md border border-amber-500/30 bg-black/50 text-white w-full backdrop-blur-sm text-xs"
                           disabled={(date) => date < new Date() || date.getDay() === 0}
                         />
                       </div>
 
                       <div>
-                        <Label className="text-amber-300 text-sm mb-2 block">Time</Label>
+                        <Label className="text-amber-300 text-xs mb-1 block">Time</Label>
                         <div className="grid grid-cols-2 gap-1">
                           {getTimeSlots(slot.date).map((time) => (
                             <Button
                               key={time}
                               variant={slot.time === time ? "default" : "outline"}
                               size="sm"
-                              className={`text-xs ${
+                              className={`text-xs h-6 ${
                                 slot.time === time
                                   ? "btn-premium text-black"
                                   : "border-amber-500/30 text-amber-200 hover:bg-amber-500/20 backdrop-blur-sm"
@@ -441,12 +450,6 @@ export default function BookingPage() {
                             </Button>
                           ))}
                         </div>
-                        {!slot.date && (
-                          <p className="text-xs text-amber-400 mt-2">Please select a date to see available times</p>
-                        )}
-                        {slot.date && getTimeSlots(slot.date).length === 0 && (
-                          <p className="text-xs text-amber-400 mt-2">No time slots available for this date</p>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -456,86 +459,75 @@ export default function BookingPage() {
               <Button
                 onClick={addSessionSlot}
                 variant="outline"
-                className={`w-full ${
+                className={`w-full h-8 text-xs ${
                   canAddMoreSessions()
                     ? "border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black backdrop-blur-sm"
                     : "border-amber-500/30 text-amber-500/50 cursor-not-allowed backdrop-blur-sm"
                 }`}
                 disabled={!canAddMoreSessions()}
               >
-                <Plus className="h-4 w-4 mr-2" />
-                {canAddMoreSessions()
-                  ? "Add Another Session"
-                  : `Maximum ${numberOfSessions || 0} session${Number.parseInt(numberOfSessions) > 1 ? "s" : ""} reached`}
+                <Plus className="h-3 w-3 mr-1" />
+                Add Session
               </Button>
             </CardContent>
           </Card>
 
           {/* Payment Summary - Third Column */}
           <Card className="premium-card">
-            <CardHeader>
-              <CardTitle className="text-white flex items-center gap-2">
-                <DollarSign className="h-5 w-5 text-amber-400" />
+            <CardHeader className="pb-4">
+              <CardTitle className="text-white flex items-center gap-2 text-base">
+                <DollarSign className="h-4 w-4 text-amber-400" />
                 Payment Summary
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-4 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300">Session Type:</span>
-                  <span className="text-white font-medium">
-                    {sessionType
-                      ? sessionType === "1-on-1"
-                        ? "1-on-1"
-                        : `Group (${groupSize[0]} persons)`
-                      : "Not selected"}
+            <CardContent className="space-y-4 pt-0">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                  <span className="text-amber-300 text-xs">Session Type:</span>
+                  <span className="text-white font-medium text-xs">
+                    {sessionType ? (sessionType === "1-on-1" ? "1-on-1" : `Group (${groupSize[0]})`) : "Not selected"}
                   </span>
                 </div>
 
-                <div className="flex justify-between items-center p-4 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300">Total Hours:</span>
-                  <span className="text-white font-medium">{getTotalHours()}</span>
+                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                  <span className="text-amber-300 text-xs">Total Hours:</span>
+                  <span className="text-white font-medium text-xs">{getTotalHours()}</span>
                 </div>
 
-                <div className="flex justify-between items-center p-4 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300">Sessions Scheduled:</span>
-                  <span className="text-white font-medium">{sessionSlots.length}</span>
+                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                  <span className="text-amber-300 text-xs">Sessions:</span>
+                  <span className="text-white font-medium text-xs">{sessionSlots.length}</span>
                 </div>
 
                 {getFreeHours() > 0 && (
-                  <div className="flex justify-between items-center p-4 bg-green-900/30 border border-green-500/30 rounded-lg backdrop-blur-sm">
-                    <span className="text-green-300">Free Hours:</span>
-                    <span className="text-green-400 font-medium">
-                      {getFreeHours()} hour{getFreeHours() > 1 ? "s" : ""}
-                    </span>
+                  <div className="flex justify-between items-center p-2 bg-green-900/30 border border-green-500/30 rounded-lg backdrop-blur-sm">
+                    <span className="text-green-300 text-xs">Free Hours:</span>
+                    <span className="text-green-400 font-medium text-xs">{getFreeHours()}</span>
                   </div>
                 )}
 
-                <div className="flex justify-between items-center p-4 bg-black/30 rounded-lg backdrop-blur-sm">
-                  <span className="text-amber-300">Billable Hours:</span>
-                  <span className="text-white font-medium">
-                    {getBillableHours()} hour{getBillableHours() > 1 ? "s" : ""}
-                  </span>
+                <div className="flex justify-between items-center p-2 bg-black/30 rounded-lg backdrop-blur-sm">
+                  <span className="text-amber-300 text-xs">Billable:</span>
+                  <span className="text-white font-medium text-xs">{getBillableHours()}</span>
                 </div>
 
-                <div className="border-t border-amber-500/30 pt-4">
-                  <div className="flex justify-between items-center p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg backdrop-blur-sm">
-                    <span className="text-amber-300 font-semibold">Total Amount:</span>
-                    <span className="text-amber-400 font-bold text-xl text-glow-subtle">${getSessionPrice()}</span>
+                <div className="border-t border-amber-500/30 pt-3">
+                  <div className="flex justify-between items-center p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg backdrop-blur-sm">
+                    <span className="text-amber-300 font-semibold text-xs">Total:</span>
+                    <span className="text-amber-400 font-bold text-lg text-glow-subtle">${getSessionPrice()}</span>
                   </div>
                 </div>
 
                 {sessionSlots.length > 0 && (
-                  <div className="space-y-2">
-                    <h4 className="text-white font-medium">Scheduled Sessions:</h4>
+                  <div className="space-y-1">
+                    <h4 className="text-white font-medium text-xs">Schedule:</h4>
                     {sessionSlots.map((slot, index) => (
                       <div
                         key={slot.id}
-                        className="text-sm p-3 bg-black/30 rounded border border-amber-500/30 backdrop-blur-sm"
+                        className="text-xs p-2 bg-black/30 rounded border border-amber-500/30 backdrop-blur-sm"
                       >
                         <div className="text-amber-300">
-                          Session {index + 1}: {slot.date?.toLocaleDateString() || "Date not set"} at{" "}
-                          {slot.time || "Time not set"}
+                          {index + 1}: {slot.date?.toLocaleDateString() || "No date"} at {slot.time || "No time"}
                         </div>
                       </div>
                     ))}
@@ -545,7 +537,7 @@ export default function BookingPage() {
 
               <Button
                 onClick={handleSubmit}
-                className="w-full btn-premium text-black font-medium py-3"
+                className="w-full btn-premium text-black font-medium py-2 text-sm"
                 disabled={!isFormValid() || isSubmitting}
               >
                 {isSubmitting ? "Sending..." : "Book Session(s)"}

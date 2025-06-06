@@ -35,9 +35,30 @@
     @apply bg-background text-foreground;
     margin: 0;
     padding: 0;
+    min-width: 1200px; /* Force minimum width */
   }
   html {
     scroll-behavior: smooth;
+    min-width: 1200px; /* Force minimum width */
+  }
+}
+
+/* Force desktop layout on all devices */
+@media screen and (max-width: 1199px) {
+  body {
+    min-width: 1200px;
+    overflow-x: auto;
+  }
+
+  .container {
+    min-width: 1200px !important;
+    width: 1200px !important;
+  }
+
+  /* Ensure booking page maintains desktop layout */
+  .booking-container {
+    min-width: 1200px !important;
+    width: 1200px !important;
   }
 }
 
@@ -129,4 +150,40 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
+}
+
+/* Mobile fixes - force desktop layout */
+@media screen and (max-width: 768px) {
+  /* Force all text to be readable */
+  .text-xs {
+    font-size: 0.65rem !important;
+  }
+  .text-sm {
+    font-size: 0.75rem !important;
+  }
+  .text-base {
+    font-size: 0.85rem !important;
+  }
+  .text-lg {
+    font-size: 0.95rem !important;
+  }
+
+  /* Ensure buttons are tappable */
+  button,
+  .btn-premium {
+    min-height: 32px !important;
+    padding: 4px 8px !important;
+  }
+
+  /* Make cards more compact */
+  .premium-card {
+    padding: 12px !important;
+  }
+
+  /* Ensure grid layouts work */
+  .grid-cols-3 {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
 }

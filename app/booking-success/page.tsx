@@ -92,9 +92,10 @@ export default function BookingSuccessPage() {
         <div
           className={`max-w-6xl mx-auto transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
-          <div className="grid grid-cols-2 gap-12 items-center">
-            {/* Left Side - Character Image */}
-            <div className="flex justify-center">
+          <div className="grid grid-cols-2 gap-12 items-start">
+            {/* Left Side - Character Image + Welcome Message */}
+            <div className="flex flex-col items-center space-y-6">
+              {/* Character Image */}
               <div className="relative">
                 <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-3xl scale-150"></div>
                 <Image
@@ -105,6 +106,15 @@ export default function BookingSuccessPage() {
                   className="relative z-10 w-full max-w-[400px] h-auto"
                   priority
                 />
+              </div>
+
+              {/* Welcome Message */}
+              <div className="w-full max-w-md">
+                <div className="p-4 bg-gradient-to-r from-amber-500/10 to-amber-600/10 rounded-lg border border-amber-500/30">
+                  <p className="text-base text-amber-300 font-medium text-center">
+                    🌟 Welcome to the UniTutors family! 🌟
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -173,13 +183,6 @@ export default function BookingSuccessPage() {
                 >
                   Return to Home
                 </Button>
-              </div>
-
-              {/* Fun Message */}
-              <div className="p-4 bg-gradient-to-r from-amber-500/10 to-amber-600/10 rounded-lg border border-amber-500/30">
-                <p className="text-base text-amber-300 font-medium text-center">
-                  🌟 Welcome to the UniTutors family! 🌟
-                </p>
               </div>
             </div>
           </div>

@@ -15,7 +15,7 @@ export function Features() {
     {
       icon: <Clock className="h-10 w-10 text-amber-400" />,
       title: "Flexible Scheduling",
-      description: "Book sessions that fit your busy university schedule, including evenings and weekends.",
+      description: "Book sessions that fit your university schedule, including evenings and weekends.",
     },
     {
       icon: <Users className="h-10 w-10 text-amber-400" />,

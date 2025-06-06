@@ -6,15 +6,14 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 
 export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
-    message: "",
+    resume: null as File | null,
+    reason: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -22,17 +21,25 @@ export function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null
+    setFormData((prev) => ({ ...prev, resume: file }))
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission here
     console.log(formData)
-    alert("Thank you for your message! We'll get back to you soon.")
+    alert("Thank you for your application! We'll get back to you soon.")
     setFormData({
       name: "",
       email: "",
-      subject: "",
-      message: "",
+      resume: null,
+      reason: "",
     })
+    // Reset file input
+    const fileInput = document.getElementById("resume") as HTMLInputElement
+    if (fileInput) fileInput.value = ""
   }
 
   return (
@@ -40,15 +47,11 @@ export function Contact() {
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 text-white text-glow-subtle">Get in Touch</h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Have questions or ready to start? Contact us today to learn more about our tutoring services.
-          </p>
+          <h2 className="text-4xl font-bold mb-4 text-white text-glow-subtle">Become a Tutor</h2>
         </div>
 
-        {/* Centered Contact Form */}
+        {/* Centered Application Form */}
         <div className="max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold mb-6 text-white text-center">Send Us a Message</h3>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-white">
@@ -80,49 +83,37 @@ export function Contact() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="subject" className="text-white">
-                Subject
+              <Label htmlFor="resume" className="text-white">
+                Resume
               </Label>
-              <Select>
-                <SelectTrigger className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm">
-                  <SelectValue placeholder="Select a subject" />
-                </SelectTrigger>
-                <SelectContent className="bg-black/90 border-amber-500/30 backdrop-blur-sm">
-                  <SelectItem value="general" className="text-white hover:bg-amber-500/20">
-                    General Inquiry
-                  </SelectItem>
-                  <SelectItem value="tutoring" className="text-white hover:bg-amber-500/20">
-                    Tutoring Services
-                  </SelectItem>
-                  <SelectItem value="pricing" className="text-white hover:bg-amber-500/20">
-                    Pricing Information
-                  </SelectItem>
-                  <SelectItem value="become-tutor" className="text-white hover:bg-amber-500/20">
-                    Become a Tutor
-                  </SelectItem>
-                  <SelectItem value="other" className="text-white hover:bg-amber-500/20">
-                    Other
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <Input
+                id="resume"
+                name="resume"
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={handleFileChange}
+                className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-4 file:py-2 file:mr-4 backdrop-blur-sm"
+                required
+              />
+              <p className="text-xs text-amber-300">Please upload your resume (PDF or Word document)</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="message" className="text-white">
-                Message
+              <Label htmlFor="reason" className="text-white">
+                Why UniTutors?
               </Label>
               <Textarea
-                id="message"
-                name="message"
-                placeholder="How can we help you?"
+                id="reason"
+                name="reason"
+                placeholder="We'd love to hear your reason."
                 rows={5}
-                value={formData.message}
+                value={formData.reason}
                 onChange={handleChange}
                 className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm"
                 required
               />
             </div>
             <Button type="submit" className="w-full btn-premium text-black font-medium">
-              Send Message
+              Submit Application
             </Button>
           </form>
         </div>

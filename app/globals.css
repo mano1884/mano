@@ -177,6 +177,47 @@
     min-width: calc(100vw / 0.35) !important;
     height: calc(100vh / 0.35) !important;
   }
+
+  /* Make calendar much larger and properly sized for mobile */
+  .desktop-mode .rdp {
+    transform: scale(1.8) !important;
+    transform-origin: center !important;
+    margin: 2rem auto !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  .desktop-mode .rdp-table {
+    width: 100% !important;
+    min-width: 280px !important;
+    table-layout: fixed !important;
+    border-spacing: 4px !important;
+  }
+
+  .desktop-mode .rdp-cell {
+    width: 40px !important;
+    height: 40px !important;
+    text-align: center !important;
+    padding: 0 !important;
+  }
+
+  .desktop-mode .rdp-day {
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    border-radius: 4px !important;
+  }
+
+  .desktop-mode .rdp-head_cell {
+    width: 40px !important;
+    height: 30px !important;
+    text-align: center !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+  }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
@@ -185,6 +226,47 @@
     width: calc(100vw / 0.45) !important;
     min-width: calc(100vw / 0.45) !important;
     height: calc(100vh / 0.45) !important;
+  }
+
+  /* Make calendar larger for tablets too */
+  .desktop-mode .rdp {
+    transform: scale(1.4) !important;
+    transform-origin: center !important;
+    margin: 1.5rem auto !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  .desktop-mode .rdp-table {
+    width: 100% !important;
+    min-width: 260px !important;
+    table-layout: fixed !important;
+    border-spacing: 3px !important;
+  }
+
+  .desktop-mode .rdp-cell {
+    width: 36px !important;
+    height: 36px !important;
+    text-align: center !important;
+    padding: 0 !important;
+  }
+
+  .desktop-mode .rdp-day {
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13px !important;
+    border-radius: 4px !important;
+  }
+
+  .desktop-mode .rdp-head_cell {
+    width: 36px !important;
+    height: 28px !important;
+    text-align: center !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
   }
 }
 

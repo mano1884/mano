@@ -327,7 +327,7 @@ export default function BookingPage() {
           <p className="text-gray-300 text-base">Schedule sessions with Mr. Emanuel Youssef</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 px-4">
+        <div className="responsive-booking-grid px-4">
           {/* Session Details Form - First Column */}
           <Card className="premium-card">
             <CardHeader className="pb-4">
@@ -516,13 +516,15 @@ export default function BookingPage() {
                     <div className="space-y-2">
                       <div>
                         <Label className="text-amber-300 text-xs mb-1 block">Date</Label>
-                        <Calendar
-                          mode="single"
-                          selected={slot.date}
-                          onSelect={(date) => updateSessionSlot(slot.id, "date", date)}
-                          className="rounded-md border border-amber-500/30 bg-black/50 text-white w-full backdrop-blur-sm text-xs"
-                          disabled={(date) => date < new Date() || date.getDay() === 0}
-                        />
+                        <div className="responsive-calendar-container">
+                          <Calendar
+                            mode="single"
+                            selected={slot.date}
+                            onSelect={(date) => updateSessionSlot(slot.id, "date", date)}
+                            className="responsive-calendar rounded-md border border-amber-500/30 bg-black/50 text-white backdrop-blur-sm"
+                            disabled={(date) => date < new Date() || date.getDay() === 0}
+                          />
+                        </div>
                       </div>
 
                       <div>

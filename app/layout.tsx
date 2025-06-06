@@ -22,8 +22,6 @@ export default function RootLayout({
       <head>
         {/* Preload critical assets */}
         <link rel="preload" href="/images/unitutors-logo-new.png" as="image" type="image/png" />
-        {/* Force desktop view - ChatGPT's suggestion */}
-        <meta name="viewport" content="width=1200" />
       </head>
       <body className={`${inter.className} bg-black text-white`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>

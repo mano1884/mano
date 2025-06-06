@@ -10,11 +10,21 @@ import { CheckCircle, ArrowLeft, Mail, Clock } from "lucide-react"
 export default function BookingSuccessPage() {
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [showDesktop, setShowDesktop] = useState(false)
 
   useEffect(() => {
     // Check if mobile
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1200)
+      const mobile = window.innerWidth <= 768
+      setIsMobile(mobile)
+
+      // Check if user previously chose desktop mode
+      if (mobile) {
+        const desktopMode = localStorage.getItem("unitutors-desktop-mode")
+        setShowDesktop(desktopMode === "true")
+      } else {
+        setShowDesktop(true)
+      }
     }
 
     // Animate in the content
@@ -28,8 +38,46 @@ export default function BookingSuccessPage() {
     }
   }, [])
 
+  const enableDesktopMode = () => {
+    localStorage.setItem("unitutors-desktop-mode", "true")
+    setShowDesktop(true)
+  }
+
+  // Show mobile landing screen
+  if (isMobile && !showDesktop) {
+    return (
+      <div className="mobile-landing">
+        <div className="absolute inset-0 gold-pattern"></div>
+        <div className="relative z-10 max-w-md">
+          <div className="mb-8">
+            <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
+            <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Booking Confirmed! 🎉</h1>
+            <p className="text-gray-300 mb-8 leading-relaxed">
+              Your session has been booked! For the full confirmation details, please view in desktop mode.
+            </p>
+          </div>
+
+          <Button
+            onClick={enableDesktopMode}
+            className="btn-premium text-black font-medium px-8 py-4 text-lg mb-4 w-full"
+          >
+            📱 ➡️ 🖥️ View Desktop Version
+          </Button>
+
+          <div className="mt-6">
+            <Link href="/" className="text-amber-400 hover:text-amber-300 text-sm">
+              ← Back to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className={`min-h-screen animated-gradient text-white relative ${isMobile ? "mobile-scale" : ""}`}>
+    <div
+      className={`min-h-screen animated-gradient text-white relative ${isMobile && showDesktop ? "desktop-mode" : ""}`}
+    >
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="container mx-auto py-8 relative z-10">
         {/* Back Button */}
@@ -47,7 +95,7 @@ export default function BookingSuccessPage() {
           {/* Success Icon */}
           <div className="mb-8">
             <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white text-glow-subtle">Booking Confirmed! 🎉</h1>
+            <h1 className="text-4xl font-bold mb-4 text-white text-glow-subtle">Booking Confirmed! 🎉</h1>
             <p className="text-xl text-gray-300 mb-8">Your tutoring session has been successfully scheduled</p>
           </div>
 
@@ -67,7 +115,7 @@ export default function BookingSuccessPage() {
           </div>
 
           {/* Information Cards */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <div className="grid grid-cols-2 gap-6 mb-12">
             <Card className="premium-card">
               <CardContent className="p-6 text-center">
                 <Mail className="h-8 w-8 text-amber-400 mx-auto mb-4" />
@@ -108,7 +156,7 @@ export default function BookingSuccessPage() {
           </Card>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex gap-4 justify-center">
             <Button
               onClick={() => (window.location.href = "/booking")}
               className="btn-premium text-black font-medium px-8 py-3"

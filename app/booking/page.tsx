@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
 import { ArrowLeft, Clock, DollarSign, User, Users, Plus, X } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 interface SessionSlot {
   id: string
@@ -28,6 +29,7 @@ export default function BookingPage() {
   const [sessionSlots, setSessionSlots] = useState<SessionSlot[]>([{ id: "1", date: new Date(), time: "" }])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [showDesktop, setShowDesktop] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,7 +40,16 @@ export default function BookingPage() {
   useEffect(() => {
     // Check if mobile
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1200)
+      const mobile = window.innerWidth <= 768
+      setIsMobile(mobile)
+
+      // Check if user previously chose desktop mode
+      if (mobile) {
+        const desktopMode = localStorage.getItem("unitutors-desktop-mode")
+        setShowDesktop(desktopMode === "true")
+      } else {
+        setShowDesktop(true)
+      }
     }
 
     checkMobile()
@@ -48,6 +59,11 @@ export default function BookingPage() {
       window.removeEventListener("resize", checkMobile)
     }
   }, [])
+
+  const enableDesktopMode = () => {
+    localStorage.setItem("unitutors-desktop-mode", "true")
+    setShowDesktop(true)
+  }
 
   // Get available time slots based on the day of the week
   const getTimeSlots = (date: Date | undefined) => {
@@ -230,8 +246,48 @@ export default function BookingPage() {
     )
   }
 
+  // Show mobile landing screen
+  if (isMobile && !showDesktop) {
+    return (
+      <div className="mobile-landing">
+        <div className="absolute inset-0 gold-pattern"></div>
+        <div className="relative z-10 max-w-md">
+          <div className="mb-8">
+            <Image
+              src="/images/unitutors-logo-new.png"
+              alt="UniTutors Logo"
+              width={200}
+              height={200}
+              className="w-32 h-auto mx-auto mb-6"
+              priority
+            />
+            <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Booking Page</h1>
+            <p className="text-gray-300 mb-8 leading-relaxed">
+              To book your tutoring session, please view this page in desktop mode for the best experience.
+            </p>
+          </div>
+
+          <Button
+            onClick={enableDesktopMode}
+            className="btn-premium text-black font-medium px-8 py-4 text-lg mb-4 w-full"
+          >
+            📱 ➡️ 🖥️ View Desktop Version
+          </Button>
+
+          <div className="mt-6">
+            <Link href="/" className="text-amber-400 hover:text-amber-300 text-sm">
+              ← Back to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className={`min-h-screen animated-gradient text-white relative ${isMobile ? "mobile-scale" : ""}`}>
+    <div
+      className={`min-h-screen animated-gradient text-white relative ${isMobile && showDesktop ? "desktop-mode" : ""}`}
+    >
       <div className="absolute inset-0 gold-pattern"></div>
       <div className="booking-container mx-auto py-4 relative z-10">
         <div className="mb-6 px-4">

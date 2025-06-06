@@ -41,12 +41,11 @@
   }
 }
 
-/* Container styles - ChatGPT's suggestion */
+/* Container styles - fit to screen */
 .container,
 .booking-container {
-  min-width: 1200px;
   width: 100%;
-  max-width: none;
+  max-width: 1200px;
   margin: 0 auto;
   padding-left: 2rem;
   padding-right: 2rem;
@@ -140,4 +139,38 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
+}
+
+/* Mobile landing screen */
+.mobile-landing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #0d0d0d, #1f1611, #332818, #1f1611);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Desktop mode styles for mobile */
+.desktop-mode {
+  width: 1200px !important;
+  min-width: 1200px !important;
+  transform-origin: top left;
+  transform: scale(0.3);
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .desktop-mode {
+    transform: scale(0.25);
+  }
 }

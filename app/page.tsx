@@ -9,11 +9,29 @@ import { Subjects } from "@/components/subjects"
 import { Testimonials } from "@/components/testimonials"
 import { Contact } from "@/components/contact"
 import { Footer } from "@/components/footer"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+  const [showDesktop, setShowDesktop] = useState(false)
 
   useEffect(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768
+      setIsMobile(mobile)
+
+      // Check if user previously chose desktop mode
+      if (mobile) {
+        const desktopMode = localStorage.getItem("unitutors-desktop-mode")
+        setShowDesktop(desktopMode === "true")
+      } else {
+        setShowDesktop(true)
+      }
+    }
+
     // Preload critical images
     const preloadImages = async () => {
       try {
@@ -37,8 +55,19 @@ export default function Home() {
       }, 800)
     }
 
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
     preloadImages()
+
+    return () => {
+      window.removeEventListener("resize", checkMobile)
+    }
   }, [])
+
+  const enableDesktopMode = () => {
+    localStorage.setItem("unitutors-desktop-mode", "true")
+    setShowDesktop(true)
+  }
 
   if (isLoading) {
     return (
@@ -51,9 +80,45 @@ export default function Home() {
     )
   }
 
+  // Show mobile landing screen
+  if (isMobile && !showDesktop) {
+    return (
+      <div className="mobile-landing">
+        <div className="absolute inset-0 gold-pattern"></div>
+        <div className="relative z-10 max-w-md">
+          <div className="mb-8">
+            <Image
+              src="/images/unitutors-logo-new.png"
+              alt="UniTutors Logo"
+              width={200}
+              height={200}
+              className="w-32 h-auto mx-auto mb-6"
+              priority
+            />
+            <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Welcome to UniTutors</h1>
+            <p className="text-gray-300 mb-8 leading-relaxed">
+              For the best experience, we recommend viewing our website in desktop mode. This will show you all features
+              and content exactly as intended.
+            </p>
+          </div>
+
+          <Button
+            onClick={enableDesktopMode}
+            className="btn-premium text-black font-medium px-8 py-4 text-lg mb-4 w-full"
+          >
+            📱 ➡️ 🖥️ View Desktop Version
+          </Button>
+
+          <p className="text-sm text-amber-300/80">You can scroll and zoom to navigate the full site</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show desktop version (or mobile in desktop mode)
   return (
-    <div className="fixed inset-0 gradient-variation-4 overflow-auto">
-      <main className="min-h-screen min-w-[1200px]">
+    <div className={`min-h-screen gradient-variation-4 ${isMobile && showDesktop ? "desktop-mode" : ""}`}>
+      <main className="min-h-screen">
         <Navbar />
         <Hero />
         <Features />

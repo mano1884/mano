@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-import { Mail, Phone, MapPin } from "lucide-react"
+import { Mail, Phone } from "lucide-react"
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -54,7 +54,7 @@ export function Contact() {
                 <Mail className="h-6 w-6 text-amber-500 mt-1" />
                 <div>
                   <h4 className="font-medium text-white">Email Us</h4>
-                  <p className="text-gray-300">info@unitutors.com</p>
+                  <p className="text-gray-300">unitutors7@gmail.com</p>
                   <p className="text-gray-300">support@unitutors.com</p>
                 </div>
               </div>
@@ -64,31 +64,6 @@ export function Contact() {
                   <h4 className="font-medium text-white">Call Us</h4>
                   <p className="text-gray-300">(555) 123-4567</p>
                   <p className="text-gray-300">Mon-Fri: 9am-8pm, Sat: 10am-4pm</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <MapPin className="h-6 w-6 text-amber-500 mt-1" />
-                <div>
-                  <h4 className="font-medium text-white">Visit Us</h4>
-                  <p className="text-gray-300">123 University Ave</p>
-                  <p className="text-gray-300">College Town, CA 12345</p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-10">
-              <h3 className="text-2xl font-bold mb-6 text-white">Office Hours</h3>
-              <div className="space-y-2 text-gray-300">
-                <div className="flex justify-between">
-                  <span>Monday - Friday</span>
-                  <span>9:00 AM - 8:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Saturday</span>
-                  <span>10:00 AM - 4:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Sunday</span>
-                  <span>Closed</span>
                 </div>
               </div>
             </div>

@@ -187,15 +187,8 @@ export default function BookingPage() {
       const result = await response.json()
 
       if (result.success) {
-        alert(
-          "🎉 Booking confirmed! A confirmation email has been sent to your inbox. We'll contact you within 24 hours to finalize the details.",
-        )
-
-        // Reset form
-        setFormData({ name: "", email: "", subject: "", notes: "" })
-        setSessionType("")
-        setNumberOfSessions("")
-        setSessionSlots([{ id: "1", date: new Date(), time: "" }])
+        // Redirect to success page instead of showing alert
+        window.location.href = "/booking-success"
       } else {
         console.error("Email sending failed:", result.error)
         alert(

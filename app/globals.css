@@ -160,17 +160,26 @@
   text-align: center;
 }
 
-/* Desktop mode styles for mobile */
+/* Desktop mode styles for mobile - IMPROVED */
 .desktop-mode {
-  width: 1200px !important;
-  min-width: 1200px !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
   transform-origin: top left;
-  transform: scale(0.3);
-  overflow-x: auto;
+  overflow-x: hidden !important;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .desktop-mode {
-    transform: scale(0.25);
+    transform: scale(0.35);
+    width: calc(100vw / 0.35) !important;
+    min-width: calc(100vw / 0.35) !important;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .desktop-mode {
+    transform: scale(0.45);
+    width: calc(100vw / 0.45) !important;
+    min-width: calc(100vw / 0.45) !important;
   }
 }

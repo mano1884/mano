@@ -57,12 +57,15 @@ export function Tutors() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
               </div>
               <CardContent className="pt-6 flex-grow relative">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className={`font-bold text-lg ${tutor.isComingSoon ? "text-amber-400" : "text-white"}`}>
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className={`font-bold text-lg flex-1 ${tutor.isComingSoon ? "text-amber-400" : "text-white"}`}>
                     {tutor.name}
                   </h3>
                   {tutor.rating && (
-                    <Badge variant="outline" className="bg-amber-500/20 text-amber-300 border-amber-500/30">
+                    <Badge
+                      variant="outline"
+                      className="bg-amber-500/20 text-amber-300 border-amber-500/30 ml-2 flex-shrink-0"
+                    >
                       {tutor.rating} ★
                     </Badge>
                   )}

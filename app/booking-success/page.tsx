@@ -53,7 +53,7 @@ export default function BookingSuccessPage() {
             <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
             <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Booking Confirmed! 🎉</h1>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              Your session has been booked! For the full confirmation details, please view in desktop mode.
+              Your session has been booked! Please view in desktop mode for details.
             </p>
           </div>
 
@@ -61,7 +61,7 @@ export default function BookingSuccessPage() {
             onClick={enableDesktopMode}
             className="btn-premium text-black font-medium px-8 py-4 text-lg mb-4 w-full"
           >
-            📱 ➡️ 🖥️ View Desktop Version
+            View Desktop Version
           </Button>
 
           <div className="mt-6">
@@ -79,7 +79,7 @@ export default function BookingSuccessPage() {
       className={`min-h-screen animated-gradient text-white relative ${isMobile && showDesktop ? "desktop-mode" : ""}`}
     >
       <div className="absolute inset-0 gold-pattern"></div>
-      <div className="container mx-auto py-8 relative z-10">
+      <div className="container success-container mx-auto py-8 relative z-10">
         {/* Back Button */}
         <div className="mb-8">
           <Link href="/" className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300">
@@ -115,7 +115,7 @@ export default function BookingSuccessPage() {
           </div>
 
           {/* Information Cards */}
-          <div className="grid grid-cols-2 gap-6 mb-12">
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             <Card className="premium-card">
               <CardContent className="p-6 text-center">
                 <Mail className="h-8 w-8 text-amber-400 mx-auto mb-4" />

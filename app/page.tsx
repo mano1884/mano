@@ -97,8 +97,7 @@ export default function Home() {
             />
             <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Welcome to UniTutors</h1>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              For the best experience, we recommend viewing our website in desktop mode. This will show you all features
-              and content exactly as intended.
+              For the best experience, we recommend viewing our website in desktop mode.
             </p>
           </div>
 
@@ -106,10 +105,8 @@ export default function Home() {
             onClick={enableDesktopMode}
             className="btn-premium text-black font-medium px-8 py-4 text-lg mb-4 w-full"
           >
-            📱 ➡️ 🖥️ View Desktop Version
+            View Desktop Version
           </Button>
-
-          <p className="text-sm text-amber-300/80">You can scroll and zoom to navigate the full site</p>
         </div>
       </div>
     )

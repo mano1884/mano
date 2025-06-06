@@ -160,12 +160,14 @@
   text-align: center;
 }
 
-/* Desktop mode styles for mobile - IMPROVED */
+/* Desktop mode styles for mobile - IMPROVED FURTHER */
 .desktop-mode {
   width: 100vw !important;
   min-width: 100vw !important;
   transform-origin: top left;
   overflow-x: hidden !important;
+  height: auto !important;
+  min-height: 100vh !important;
 }
 
 @media screen and (max-width: 480px) {
@@ -173,6 +175,7 @@
     transform: scale(0.35);
     width: calc(100vw / 0.35) !important;
     min-width: calc(100vw / 0.35) !important;
+    height: calc(100vh / 0.35) !important;
   }
 }
 
@@ -181,5 +184,24 @@
     transform: scale(0.45);
     width: calc(100vw / 0.45) !important;
     min-width: calc(100vw / 0.45) !important;
+    height: calc(100vh / 0.45) !important;
   }
+}
+
+/* Fix for booking page and success page */
+.booking-container,
+.success-container {
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+/* Ensure content fills the screen */
+.min-h-screen {
+  min-height: 100vh !important;
+}
+
+/* Fix for main content */
+main.min-h-screen {
+  min-height: 100vh !important;
+  height: auto !important;
 }

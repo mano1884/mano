@@ -263,7 +263,7 @@ export default function BookingPage() {
             />
             <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Booking Page</h1>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              To book your tutoring session, please view this page in desktop mode for the best experience.
+              To book your tutoring session, please view this page in desktop mode.
             </p>
           </div>
 
@@ -271,7 +271,7 @@ export default function BookingPage() {
             onClick={enableDesktopMode}
             className="btn-premium text-black font-medium px-8 py-4 text-lg mb-4 w-full"
           >
-            📱 ➡️ 🖥️ View Desktop Version
+            View Desktop Version
           </Button>
 
           <div className="mt-6">

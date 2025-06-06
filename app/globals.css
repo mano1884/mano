@@ -190,7 +190,7 @@
   transform-origin: top left;
   overflow-x: hidden !important;
   height: auto !important;
-  min-height: 100vh !important;
+  min-height: auto !important;
 }
 
 @media screen and (max-width: 480px) {
@@ -198,7 +198,7 @@
     transform: scale(0.35);
     width: calc(100vw / 0.35) !important;
     min-width: calc(100vw / 0.35) !important;
-    height: calc(100vh / 0.35) !important;
+    height: auto !important;
   }
 }
 
@@ -207,32 +207,36 @@
     transform: scale(0.45);
     width: calc(100vw / 0.45) !important;
     min-width: calc(100vw / 0.45) !important;
-    height: calc(100vh / 0.45) !important;
+    height: auto !important;
   }
 }
 
-/* Responsive calendar styles - CENTERED */
+/* Responsive calendar styles - PERFECTLY SYMMETRIC */
 .responsive-calendar-container {
   width: 100%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0.5rem;
 }
 
 .responsive-calendar {
   width: 100% !important;
-  max-width: 320px !important;
+  max-width: 280px !important;
   font-size: 0.75rem;
   margin: 0 auto !important;
+  padding: 0.75rem !important;
+  border-radius: 0.5rem !important;
 }
 
 .responsive-calendar .rdp {
-  margin: 0 auto !important;
+  margin: 0 !important;
   width: 100% !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
+  gap: 0.5rem !important;
 }
 
 .responsive-calendar .rdp-months {
@@ -243,103 +247,140 @@
 
 .responsive-calendar .rdp-month {
   width: 100% !important;
-  max-width: 300px !important;
-}
-
-.responsive-calendar .rdp-table {
-  width: 100% !important;
-  table-layout: fixed !important;
-  border-spacing: 2px !important;
-  margin: 0 auto !important;
-}
-
-.responsive-calendar .rdp-head_cell {
-  width: 14.28% !important;
-  text-align: center !important;
-  font-size: 0.6rem !important;
-  font-weight: 600 !important;
-  padding: 0.25rem 0 !important;
-}
-
-.responsive-calendar .rdp-cell {
-  width: 14.28% !important;
-  text-align: center !important;
-  padding: 1px !important;
-}
-
-.responsive-calendar .rdp-day {
-  width: 100% !important;
-  height: 2rem !important;
   display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
-  justify-content: center !important;
-  font-size: 0.65rem !important;
-  border-radius: 0.25rem !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
+  gap: 0.5rem !important;
 }
 
-.responsive-calendar .rdp-day_selected {
-  background-color: rgb(245 158 11) !important;
-  color: black !important;
-}
-
-.responsive-calendar .rdp-day:hover {
-  background-color: rgba(245, 158, 11, 0.2) !important;
-}
-
+/* Navigation header - perfectly centered */
 .responsive-calendar .rdp-nav {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  margin-bottom: 0.5rem !important;
   width: 100% !important;
+  margin-bottom: 0 !important;
+  padding: 0 0.25rem !important;
 }
 
 .responsive-calendar .rdp-caption {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  width: 100% !important;
+  flex: 1 !important;
 }
 
 .responsive-calendar .rdp-caption_label {
-  font-size: 0.75rem !important;
+  font-size: 0.875rem !important;
   font-weight: 600 !important;
   color: white !important;
   text-align: center !important;
+  margin: 0 !important;
 }
 
 .responsive-calendar .rdp-nav_button {
-  width: 1.5rem !important;
-  height: 1.5rem !important;
+  width: 2rem !important;
+  height: 2rem !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border-radius: 0.25rem !important;
+  border-radius: 0.375rem !important;
   border: 1px solid rgba(245, 158, 11, 0.3) !important;
   background-color: rgba(0, 0, 0, 0.5) !important;
   color: rgb(245 158 11) !important;
+  font-size: 0.875rem !important;
 }
 
 .responsive-calendar .rdp-nav_button:hover {
   background-color: rgba(245, 158, 11, 0.2) !important;
 }
 
-/* Fix for booking page and success page */
-.booking-container,
-.success-container {
-  min-height: 100vh;
-  padding-bottom: 2rem;
+/* Calendar table - perfectly symmetric */
+.responsive-calendar .rdp-table {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-spacing: 0 !important;
+  margin: 0 !important;
 }
 
-/* Ensure content fills the screen */
+.responsive-calendar .rdp-head_cell {
+  width: 14.28% !important;
+  text-align: center !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 0 !important;
+  color: rgba(245, 158, 11, 0.8) !important;
+}
+
+.responsive-calendar .rdp-cell {
+  width: 14.28% !important;
+  text-align: center !important;
+  padding: 0.125rem !important;
+}
+
+.responsive-calendar .rdp-day {
+  width: 2rem !important;
+  height: 2rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.75rem !important;
+  border-radius: 0.375rem !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.responsive-calendar .rdp-day_selected {
+  background-color: rgb(245 158 11) !important;
+  color: black !important;
+  font-weight: 600 !important;
+}
+
+.responsive-calendar .rdp-day:hover:not(.rdp-day_selected) {
+  background-color: rgba(245, 158, 11, 0.2) !important;
+  color: white !important;
+}
+
+.responsive-calendar .rdp-day_outside {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.responsive-calendar .rdp-day_disabled {
+  color: rgba(255, 255, 255, 0.2) !important;
+  cursor: not-allowed !important;
+}
+
+/* Fix for booking page - remove black space */
+.booking-container {
+  min-height: auto !important;
+  height: auto !important;
+  padding-bottom: 1rem !important;
+}
+
+/* Ensure content fits properly */
 .min-h-screen {
-  min-height: 100vh !important;
+  min-height: auto !important;
+  height: auto !important;
 }
 
 /* Fix for main content */
 main.min-h-screen {
-  min-height: 100vh !important;
+  min-height: auto !important;
   height: auto !important;
+}
+
+/* Remove extra height from animated gradient backgrounds */
+.animated-gradient,
+.gradient-variation-4 {
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* Success page specific fixes */
+.success-container {
+  min-height: auto !important;
+  height: auto !important;
+  padding-bottom: 1rem !important;
 }

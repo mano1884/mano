@@ -12,7 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { Slider } from "@/components/ui/slider"
-import { ArrowLeft, Clock, DollarSign, User, Users, Plus, X } from 'lucide-react'
+import { ArrowLeft, Clock, DollarSign, User, Users, Plus, X } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -30,6 +30,7 @@ export default function BookingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [showDesktop, setShowDesktop] = useState(false)
+  const [attachedFiles, setAttachedFiles] = useState<FileList | null>(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -130,6 +131,10 @@ export default function BookingPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAttachedFiles(e.target.files)
+  }
+
   const addSessionSlot = () => {
     const maxSessions = Number.parseInt(numberOfSessions) || 0
     if (sessionSlots.length < maxSessions) {
@@ -213,7 +218,16 @@ export default function BookingPage() {
     setIsSubmitting(true)
 
     try {
-      // Format session details for email
+      // Create FormData to handle file uploads
+      const formDataToSend = new FormData()
+
+      // Add text fields
+      formDataToSend.append("name", formData.name)
+      formDataToSend.append("email", formData.email)
+      formDataToSend.append("subject", formData.subject)
+      formDataToSend.append("notes", formData.notes)
+
+      // Add session details
       const sessionDetailsText = sessionSlots
         .map(
           (slot, index) =>
@@ -221,29 +235,38 @@ export default function BookingPage() {
         )
         .join("")
 
-      const sessionTypeText = sessionType === "1-on-1" ? "1-on-1 Session" : `Group Session (${groupSize[0]} persons)`
+      formDataToSend.append("sessionDetails", sessionDetailsText)
+      formDataToSend.append("totalAmount", getSessionPrice().toString())
+      formDataToSend.append(
+        "sessionType",
+        sessionType === "1-on-1" ? "1-on-1 Session" : `Group Session (${groupSize[0]} persons)`,
+      )
+      formDataToSend.append("numberOfSessions", getTotalHours().toString())
+
+      // Add files if any
+      if (attachedFiles) {
+        for (let i = 0; i < attachedFiles.length; i++) {
+          formDataToSend.append("files", attachedFiles[i])
+        }
+      }
 
       // Send booking data to API route
       const response = await fetch("/api/send-email", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          sessionDetails: sessionDetailsText,
-          totalAmount: getSessionPrice(),
-          sessionType: sessionTypeText,
-          numberOfSessions: getTotalHours(),
-          notes: formData.notes, // Include notes in the email
-        }),
+        body: formDataToSend, // Send FormData instead of JSON
       })
 
       const result = await response.json()
 
       if (result.success) {
+        // Store booking data for payment page
+        localStorage.setItem(
+          "bookingData",
+          JSON.stringify({
+            totalAmount: getSessionPrice(),
+            orderId: Math.floor(10000 + Math.random() * 90000).toString(),
+          }),
+        )
         // Redirect to success page instead of showing alert
         window.location.href = "/booking-success"
       } else {
@@ -472,7 +495,7 @@ export default function BookingPage() {
                         onChange={handleInputChange}
                         placeholder="Topics to focus on?"
                         className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm text-xs"
-                        rows={2}
+                        rows={3}
                       />
                       <div className="space-y-1">
                         <Label htmlFor="files" className="text-amber-300 text-xs">
@@ -484,7 +507,8 @@ export default function BookingPage() {
                           type="file"
                           multiple
                           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
-                          className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-8 text-xs"
+                          onChange={handleFileChange}
+                          className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-10 text-xs"
                         />
                       </div>
                     </div>

@@ -10,7 +10,7 @@ export function Tutors() {
     {
       name: "Mr. Emanuel Youssef",
       image: "/images/emanuel-avatar.png",
-      role: "FBAE Valedictorian 2024-2025",
+      role: "NDU FBAE Valedictorian 2024-2025",
       education: "MSc in FRM, BBA in Fin. Eng",
       subjects: ["Finance", "Economics", "Math and Statistics", "Accounting"],
       rating: 5.0,

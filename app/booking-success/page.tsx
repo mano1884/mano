@@ -92,9 +92,9 @@ export default function BookingSuccessPage() {
         <div
           className={`max-w-6xl mx-auto transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
-          <div className="grid grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-2 gap-12 items-center">
             {/* Left Side - Character Image + Welcome Message */}
-            <div className="flex flex-col items-center space-y-6">
+            <div className="flex flex-col items-center space-y-8">
               {/* Character Image */}
               <div className="relative">
                 <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-3xl scale-150"></div>
@@ -108,7 +108,7 @@ export default function BookingSuccessPage() {
                 />
               </div>
 
-              {/* Welcome Message */}
+              {/* Welcome Message - Positioned to align with right content */}
               <div className="w-full max-w-md">
                 <div className="p-4 bg-gradient-to-r from-amber-500/10 to-amber-600/10 rounded-lg border border-amber-500/30">
                   <p className="text-base text-amber-300 font-medium text-center">
@@ -171,10 +171,10 @@ export default function BookingSuccessPage() {
               {/* Action Buttons */}
               <div className="flex gap-3 justify-center">
                 <Button
-                  onClick={() => (window.location.href = "/booking")}
+                  onClick={() => (window.location.href = "/payment")}
                   className="btn-premium text-black font-medium px-6 py-2 text-sm"
                 >
-                  Book Another Session
+                  Proceed to Payment
                 </Button>
                 <Button
                   onClick={() => (window.location.href = "/")}

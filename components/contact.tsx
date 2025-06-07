@@ -92,10 +92,9 @@ export function Contact() {
                 type="file"
                 accept=".pdf,.doc,.docx"
                 onChange={handleFileChange}
-                className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-4 file:py-2 file:mr-4 backdrop-blur-sm"
+                className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-4 file:py-2 file:mr-4 backdrop-blur-sm h-12"
                 required
               />
-              <p className="text-xs text-amber-300">Please upload your resume (PDF or Word document)</p>
             </div>
             <div className="space-y-2">
               <Label htmlFor="reason" className="text-white">

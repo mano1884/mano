@@ -3,11 +3,22 @@ import nodemailer from "nodemailer"
 
 export async function POST(request: Request) {
   try {
-    const { name, email, subject, sessionDetails, totalAmount, sessionType, numberOfSessions, notes } =
-      await request.json()
+    const formData = await request.formData()
+
+    const name = formData.get("name") as string
+    const email = formData.get("email") as string
+    const subject = formData.get("subject") as string
+    const sessionDetails = formData.get("sessionDetails") as string
+    const totalAmount = formData.get("totalAmount") as string
+    const sessionType = formData.get("sessionType") as string
+    const numberOfSessions = formData.get("numberOfSessions") as string
+    const notes = formData.get("notes") as string
+
+    // Handle file attachments
+    const files = formData.getAll("files") as File[]
 
     // Create a transporter using your environment variables
-    const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransporter({
       host: process.env.EMAIL_SERVER_HOST,
       port: Number(process.env.EMAIL_SERVER_PORT),
       secure: false, // true for 465, false for other ports
@@ -16,6 +27,18 @@ export async function POST(request: Request) {
         pass: process.env.EMAIL_SERVER_PASSWORD,
       },
     })
+
+    // Prepare attachments
+    const attachments = []
+    for (const file of files) {
+      if (file.size > 0) {
+        const buffer = Buffer.from(await file.arrayBuffer())
+        attachments.push({
+          filename: file.name,
+          content: buffer,
+        })
+      }
+    }
 
     // Email content
     const emailHtml = `
@@ -124,7 +147,8 @@ export async function POST(request: Request) {
       to: email,
       subject: "UniTutors - Booking Confirmation",
       html: emailHtml,
-      replyTo: process.env.EMAIL_FROM, // Add reply-to for easy replies
+      replyTo: process.env.EMAIL_FROM,
+      attachments: attachments, // Include file attachments
     })
 
     // Send notification to admin (optional)
@@ -142,7 +166,9 @@ export async function POST(request: Request) {
         <p><strong>Schedule:</strong></p>
         <div>${sessionDetails}</div>
         ${notes ? `<p><strong>Additional Notes:</strong></p><div>${notes}</div>` : ""}
+        ${files.length > 0 ? `<p><strong>Files attached:</strong> ${files.length} file(s)</p>` : ""}
       `,
+      attachments: attachments, // Include file attachments in admin email too
     })
 
     return NextResponse.json({ success: true, message: "Emails sent successfully" })

@@ -27,10 +27,10 @@ export default function BookingPage() {
   const [groupSize, setGroupSize] = useState([2])
   const [numberOfSessions, setNumberOfSessions] = useState("")
   const [sessionSlots, setSessionSlots] = useState<SessionSlot[]>([{ id: "1", date: new Date(), time: "" }])
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  // Removed isSubmitting state as we are no longer making an API call here
   const [isMobile, setIsMobile] = useState(false)
   const [showDesktop, setShowDesktop] = useState(false)
-  const [attachedFiles, setAttachedFiles] = useState<FileList | null>(null)
+  // Removed attachedFiles state as files are no longer sent with this booking flow
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -168,9 +168,7 @@ export default function BookingPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAttachedFiles(e.target.files)
-  }
+  // Removed handleFileChange as files are no longer sent with this booking flow
 
   const addSessionSlot = () => {
     const maxSessions = Number.parseInt(numberOfSessions) || 0
@@ -252,70 +250,18 @@ export default function BookingPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    // Removed setIsSubmitting(true) as no API call is made here
 
-    try {
-      // Create FormData to handle file uploads
-      const formDataToSend = new FormData()
-
-      // Add text fields
-      formDataToSend.append("name", formData.name)
-      formDataToSend.append("email", formData.email)
-      formDataToSend.append("subject", formData.subject)
-      formDataToSend.append("notes", formData.notes)
-
-      // Add session details
-      const sessionDetailsText = sessionSlots
-        .map(
-          (slot, index) =>
-            `<div style="margin-bottom: 8px;"><strong>Session ${index + 1}:</strong> ${slot.date?.toLocaleDateString() || "Date not set"} at ${slot.time || "Time not set"}</div>`,
-        )
-        .join("")
-
-      formDataToSend.append("sessionDetails", sessionDetailsText)
-      formDataToSend.append("totalAmount", getSessionPrice().toString())
-      formDataToSend.append(
-        "sessionType",
-        sessionType === "1-on-1" ? "1-on-1 Session" : `Group Session (${groupSize[0]} persons)`,
-      )
-      formDataToSend.append("numberOfSessions", getTotalHours().toString())
-
-      // Add files if any
-      if (attachedFiles) {
-        for (let i = 0; i < attachedFiles.length; i++) {
-          formDataToSend.append("files", attachedFiles[i])
-        }
-      }
-
-      // Send booking data to API route
-      const response = await fetch("/api/send-email", {
-        method: "POST",
-        body: formDataToSend, // Send FormData instead of JSON
-      })
-
-      const result = await response.json()
-
-      if (result.success) {
-        // Store booking data for payment page
-        localStorage.setItem(
-          "bookingData",
-          JSON.stringify({
-            totalAmount: getSessionPrice(),
-            orderId: Math.floor(10000 + Math.random() * 90000).toString(),
-          }),
-        )
-        // Redirect to success page instead of showing alert
-        window.location.href = "/booking-success"
-      } else {
-        console.error("Email sending failed:", result.error)
-        alert("Error booking the session, please contact our support team")
-      }
-    } catch (error) {
-      console.error("Booking submission error:", error)
-      alert("Error booking the session, please contact our support team")
-    } finally {
-      setIsSubmitting(false)
-    }
+    // Store booking data for payment page
+    localStorage.setItem(
+      "bookingData",
+      JSON.stringify({
+        totalAmount: getSessionPrice(),
+        orderId: Math.floor(10000 + Math.random() * 90000).toString(),
+      }),
+    )
+    // Redirect to payment page directly
+    window.location.href = "/payment"
   }
 
   const isFormValid = () => {
@@ -532,20 +478,7 @@ export default function BookingPage() {
                         className="bg-black/50 border-amber-500/30 text-white backdrop-blur-sm text-xs"
                         rows={3}
                       />
-                      <div className="space-y-1">
-                        <Label htmlFor="files" className="text-amber-300 text-xs">
-                          Attach files
-                        </Label>
-                        <Input
-                          id="files"
-                          name="files"
-                          type="file"
-                          multiple
-                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
-                          onChange={handleFileChange}
-                          className="bg-black/50 border-amber-500/30 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded file:px-2 file:py-1 file:mr-2 backdrop-blur-sm h-10 text-xs"
-                        />
-                      </div>
+                      {/* Removed file input as files are no longer sent with this booking flow */}
                     </div>
                   </div>
                 </form>
@@ -710,9 +643,9 @@ export default function BookingPage() {
                 <Button
                   onClick={handleSubmit}
                   className="w-full btn-premium text-black font-medium py-2 text-sm"
-                  disabled={!isFormValid() || isSubmitting}
+                  disabled={!isFormValid()}
                 >
-                  {isSubmitting ? "Booking..." : "Book Session(s)"}
+                  Book Session(s)
                 </Button>
               </CardContent>
             </Card>

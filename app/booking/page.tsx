@@ -91,6 +91,43 @@ export default function BookingPage() {
     setShowDesktop(true)
   }
 
+  // Get current time in UTC+3 timezone
+  const getCurrentTimeUTC3 = () => {
+    const now = new Date()
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000
+    const utc3 = new Date(utc + 3 * 3600000)
+    return utc3
+  }
+
+  // Check if a time slot is in the past
+  const isTimeSlotPast = (date: Date | undefined, timeString: string) => {
+    if (!date || !timeString) return false
+
+    const currentTime = getCurrentTimeUTC3()
+    const selectedDate = new Date(date)
+
+    // If the selected date is before today, all times are past
+    if (selectedDate.toDateString() !== currentTime.toDateString()) {
+      return selectedDate < currentTime
+    }
+
+    // If it's today, check if the time has passed
+    const [time, period] = timeString.split(" ")
+    const [hours, minutes] = time.split(":").map(Number)
+    let hour24 = hours
+
+    if (period === "PM" && hours !== 12) {
+      hour24 += 12
+    } else if (period === "AM" && hours === 12) {
+      hour24 = 0
+    }
+
+    const slotTime = new Date(selectedDate)
+    slotTime.setHours(hour24, minutes || 0, 0, 0)
+
+    return slotTime <= currentTime
+  }
+
   // Get available time slots based on the day of the week
   const getTimeSlots = (date: Date | undefined) => {
     if (!date) return []
@@ -271,13 +308,11 @@ export default function BookingPage() {
         window.location.href = "/booking-success"
       } else {
         console.error("Email sending failed:", result.error)
-        alert(
-          "Booking submitted successfully! However, there was an issue sending the confirmation email. We'll contact you directly to confirm your sessions.",
-        )
+        alert("Error booking the session, please contact our support team")
       }
     } catch (error) {
       console.error("Booking submission error:", error)
-      alert("Booking request submitted! We'll contact you soon to confirm your sessions.")
+      alert("Error booking the session, please contact our support team")
     } finally {
       setIsSubmitting(false)
     }
@@ -563,21 +598,27 @@ export default function BookingPage() {
                         <div>
                           <Label className="text-amber-300 text-xs mb-1 block">Time</Label>
                           <div className="grid grid-cols-2 gap-1">
-                            {getTimeSlots(slot.date).map((time) => (
-                              <Button
-                                key={time}
-                                variant={slot.time === time ? "default" : "outline"}
-                                size="sm"
-                                className={`text-xs h-6 ${
-                                  slot.time === time
-                                    ? "btn-premium text-black"
-                                    : "border-amber-500/30 text-amber-200 hover:bg-amber-500/20 backdrop-blur-sm"
-                                }`}
-                                onClick={() => updateSessionSlot(slot.id, "time", time)}
-                              >
-                                {time}
-                              </Button>
-                            ))}
+                            {getTimeSlots(slot.date).map((time) => {
+                              const isPast = isTimeSlotPast(slot.date, time)
+                              return (
+                                <Button
+                                  key={time}
+                                  variant={slot.time === time ? "default" : "outline"}
+                                  size="sm"
+                                  className={`text-xs h-6 ${
+                                    isPast
+                                      ? "opacity-50 cursor-not-allowed border-gray-500/30 text-gray-500"
+                                      : slot.time === time
+                                        ? "btn-premium text-black"
+                                        : "border-amber-500/30 text-amber-200 hover:bg-amber-500/20 backdrop-blur-sm"
+                                  }`}
+                                  onClick={() => !isPast && updateSessionSlot(slot.id, "time", time)}
+                                  disabled={isPast}
+                                >
+                                  {time}
+                                </Button>
+                              )
+                            })}
                           </div>
                         </div>
                       </div>

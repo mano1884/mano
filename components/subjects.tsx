@@ -75,7 +75,11 @@ export function Subjects() {
                   {category.subjects.map((subject, i) => (
                     <li key={i} className="flex items-start">
                       <ChevronRight className="h-4 w-4 text-amber-400 mr-2 mt-1 flex-shrink-0" />
-                      <span className={category.isComingSoon ? "text-amber-300/80" : ""}>{subject}</span>
+                      <span
+                        className={`${category.isComingSoon ? "text-amber-300/80" : ""} ${subject === "Principles of Financial Management I & II" ? "whitespace-nowrap" : ""}`}
+                      >
+                        {subject}
+                      </span>
                     </li>
                   ))}
                 </ul>

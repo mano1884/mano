@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server"
 import nodemailer from "nodemailer"
 
+// Force this route to be dynamic
+export const dynamic = "force-dynamic"
+
 export async function POST(request: Request) {
-  let customerEmailSent = false
-  let adminEmailSent = false
+  console.log("📧 Email API route called")
 
   try {
     const formData = await request.formData()
+    console.log("📋 Form data received")
 
     const name = formData.get("name") as string
     const email = formData.get("email") as string
@@ -17,21 +20,24 @@ export async function POST(request: Request) {
     const numberOfSessions = formData.get("numberOfSessions") as string
     const notes = formData.get("notes") as string
 
+    console.log(`👤 Booking for: ${name} (${email})`)
+
+    // Check if environment variables exist
+    if (!process.env.EMAIL_SERVER_HOST || !process.env.EMAIL_SERVER_USER || !process.env.EMAIL_SERVER_PASSWORD) {
+      console.error("❌ Missing email environment variables")
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Email configuration missing",
+        },
+        { status: 500 },
+      )
+    }
+
+    console.log(`📡 Connecting to email server: ${process.env.EMAIL_SERVER_HOST}:${process.env.EMAIL_SERVER_PORT}`)
+
     // Handle file attachments
     const files = formData.getAll("files") as File[]
-
-    // Create a transporter using your environment variables
-    const transporter = nodemailer.createTransporter({
-      host: process.env.EMAIL_SERVER_HOST,
-      port: Number(process.env.EMAIL_SERVER_PORT),
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_SERVER_USER,
-        pass: process.env.EMAIL_SERVER_PASSWORD,
-      },
-    })
-
-    // Prepare attachments
     const attachments = []
     for (const file of files) {
       if (file.size > 0) {
@@ -43,230 +49,162 @@ export async function POST(request: Request) {
       }
     }
 
-    // Email content for customer
+    // Create transporter
+    const transporter = nodemailer.createTransporter({
+      host: process.env.EMAIL_SERVER_HOST,
+      port: Number(process.env.EMAIL_SERVER_PORT) || 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_SERVER_USER,
+        pass: process.env.EMAIL_SERVER_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    })
+
+    console.log("🔧 Transporter created, testing connection...")
+
+    // Test the connection
+    try {
+      await transporter.verify()
+      console.log("✅ Email server connection successful")
+    } catch (verifyError) {
+      console.error("❌ Email server connection failed:", verifyError)
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Cannot connect to email server",
+        },
+        { status: 500 },
+      )
+    }
+
+    // Customer email HTML
     const customerEmailHtml = `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UniTutors Booking Confirmation</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px;">
-    <!-- Header -->
-    <div style="text-align: center; padding: 20px 0; background: linear-gradient(135deg, #000000, #2d1810); border-radius: 8px; margin-bottom: 30px;">
-      <h1 style="color: #f59e0b; margin: 0; font-size: 28px; text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);">
-        UniTutors
-      </h1>
-      <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">
-        Booking Confirmation
-      </p>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 8px;">
+    <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #000000, #2d1810); border-radius: 8px; margin-bottom: 20px;">
+      <h1 style="color: #f59e0b; margin: 0; font-size: 24px;">UniTutors</h1>
+      <p style="color: #ffffff; margin: 10px 0 0 0;">Booking Confirmation</p>
     </div>
     
-    <!-- Main Content -->
-    <div style="padding: 0 20px;">
-      <h2 style="color: #333333; margin-bottom: 20px;">Hello ${name}!</h2>
-      
-      <p style="color: #666666; line-height: 1.6; margin-bottom: 25px;">
-        Thank you for booking a tutoring session with UniTutors. We're excited to help you excel in your studies! 
-        Here are your session details:
-      </p>
-      
-      <!-- Booking Details -->
-      <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 25px;">
-        <h3 style="color: #f59e0b; margin-top: 0; margin-bottom: 15px;">Booking Summary</h3>
-        
-        <p style="margin: 8px 0; color: #333; line-height: 1.6;">
-          <strong>Subject:</strong>   <span style="color: #f59e0b;">${subject}</span>
-        </p>
-        <p style="margin: 8px 0; color: #333; line-height: 1.6;">
-          <strong>Session Type:</strong>   <span style="color: #f59e0b;">${sessionType}</span>
-        </p>
-        <p style="margin: 8px 0; color: #333; line-height: 1.6;">
-          <strong>Number of Sessions:</strong>   <span style="color: #f59e0b;">${numberOfSessions} hour${numberOfSessions > 1 ? "s" : ""}</span>
-        </p>
-        <p style="margin: 8px 0; color: #333; line-height: 1.6;">
-          <strong>Total Amount:</strong>   <span style="color: #f59e0b; font-size: 14px;">$${totalAmount}</span>
-        </p>
-      </div>
-      
-      <!-- Session Schedule -->
-      <div style="background-color: #fff8e1; padding: 25px; border-radius: 8px; border: 1px solid #f59e0b; margin-bottom: 25px;">
-        <h3 style="color: #f59e0b; margin-top: 0; margin-bottom: 15px;">Scheduled Sessions</h3>
-        <div style="color: #666; line-height: 1.8;">
-          ${sessionDetails}
-        </div>
-      </div>
-      
-      ${
-        notes
-          ? `
-      <!-- Additional Notes -->
-      <div style="background-color: #e8f5e8; padding: 25px; border-radius: 8px; border: 1px solid #4caf50; margin-bottom: 25px;">
-        <h3 style="color: #4caf50; margin-top: 0; margin-bottom: 15px;">Additional Notes</h3>
-        <div style="color: #666; line-height: 1.6;">
-          ${notes}
-        </div>
-      </div>
-      `
-          : ""
-      }
-      
-      <!-- Contact Information -->
-      <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px; margin-bottom: 25px;">
-        <p style="color: #666; margin: 0 0 10px 0;">
-          Questions about your booking?
-        </p>
-        <p style="color: #f59e0b; font-weight: bold; margin: 0;">
-          Simply reply to this message and we'll get back to you!
-        </p>
-      </div>
-      
-      <p style="color: #666; line-height: 1.6; margin-bottom: 0;">
-        Thank you for choosing UniTutors. We look forward to helping you achieve academic excellence!
-      </p>
-      
-      <p style="color: #f59e0b; font-weight: bold; margin-top: 20px;">
-        Best regards,<br>
-        The UniTutors Team
-      </p>
+    <h2 style="color: #333;">Hello ${name}!</h2>
+    <p style="color: #666;">Thank you for booking with UniTutors! Here are your session details:</p>
+    
+    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+      <h3 style="color: #f59e0b; margin-top: 0;">Booking Summary</h3>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Session Type:</strong> ${sessionType}</p>
+      <p><strong>Number of Sessions:</strong> ${numberOfSessions}</p>
+      <p><strong>Total Amount:</strong> $${totalAmount}</p>
     </div>
     
-    <!-- Footer -->
-    <div style="text-align: center; padding: 20px; margin-top: 30px; border-top: 1px solid #eee;">
-      <p style="color: #999; font-size: 12px; margin: 0;">
-        © ${new Date().getFullYear()} UniTutors. All rights reserved.
-      </p>
+    <div style="background-color: #fff8e1; padding: 20px; border-radius: 8px; margin: 20px 0;">
+      <h3 style="color: #f59e0b; margin-top: 0;">Schedule</h3>
+      ${sessionDetails}
     </div>
+    
+    ${
+      notes
+        ? `
+    <div style="background-color: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0;">
+      <h3 style="color: #4caf50; margin-top: 0;">Notes</h3>
+      <p>${notes}</p>
+    </div>
+    `
+        : ""
+    }
+    
+    <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+      <p style="color: #f59e0b; font-weight: bold;">Questions? Reply to this email!</p>
+    </div>
+    
+    <p style="color: #f59e0b; font-weight: bold; margin-top: 20px;">
+      Best regards,<br>The UniTutors Team
+    </p>
   </div>
 </body>
-</html>
-`
+</html>`
 
-    // Admin notification email content
+    // Admin email HTML
     const adminEmailHtml = `
-<h2>🚨 NEW BOOKING RECEIVED</h2>
-<div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
-  <h3 style="color: #f59e0b; margin-top: 0;">Student Information</h3>
-  <p><strong>Name:</strong> ${name}</p>
-  <p><strong>Email:</strong> ${email}</p>
-  <p><strong>Subject:</strong> ${subject}</p>
-  <p><strong>Session Type:</strong> ${sessionType}</p>
-  <p><strong>Number of Sessions:</strong> ${numberOfSessions}</p>
-  <p><strong>Total Amount:</strong> $${totalAmount}</p>
-</div>
-
-<div style="background-color: #fff8e1; padding: 20px; border-radius: 8px; border: 1px solid #f59e0b; margin-bottom: 20px;">
-  <h3 style="color: #f59e0b; margin-top: 0;">Schedule</h3>
-  ${sessionDetails}
-</div>
-
-${
-  notes
-    ? `
-<div style="background-color: #e8f5e8; padding: 20px; border-radius: 8px; border: 1px solid #4caf50; margin-bottom: 20px;">
-  <h3 style="color: #4caf50; margin-top: 0;">Additional Notes</h3>
-  <div>${notes}</div>
-</div>
-`
-    : ""
-}
-
-${files.length > 0 ? `<p><strong>📎 Files attached:</strong> ${files.length} file(s)</p>` : ""}
-
-<p style="color: #666; font-size: 12px; margin-top: 30px;">
-  This is an automated notification from the UniTutors booking system.
-</p>
+<h2>🚨 NEW BOOKING</h2>
+<p><strong>Name:</strong> ${name}</p>
+<p><strong>Email:</strong> ${email}</p>
+<p><strong>Subject:</strong> ${subject}</p>
+<p><strong>Type:</strong> ${sessionType}</p>
+<p><strong>Sessions:</strong> ${numberOfSessions}</p>
+<p><strong>Amount:</strong> $${totalAmount}</p>
+<h3>Schedule:</h3>
+${sessionDetails}
+${notes ? `<h3>Notes:</h3><p>${notes}</p>` : ""}
+${files.length > 0 ? `<p>📎 ${files.length} file(s) attached</p>` : ""}
 `
 
-    // Try to send customer email first
+    let customerEmailSent = false
+    let adminEmailSent = false
+
+    // Send customer email
     try {
+      console.log("📤 Sending customer email...")
       await transporter.sendMail({
         from: process.env.EMAIL_FROM,
         to: email,
         subject: "UniTutors - Booking Confirmation",
         html: customerEmailHtml,
-        replyTo: process.env.EMAIL_FROM,
         attachments: attachments,
       })
       customerEmailSent = true
-    } catch (customerEmailError) {
-      console.error("Customer email failed:", customerEmailError)
-      console.error(
-        "Customer email error details:",
-        JSON.stringify(customerEmailError, Object.getOwnPropertyNames(customerEmailError)),
-      )
+      console.log("✅ Customer email sent successfully")
+    } catch (customerError) {
+      console.error("❌ Customer email failed:", customerError)
     }
 
-    // Always try to send admin notification (even if customer email fails)
+    // Send admin email
     try {
+      console.log("📤 Sending admin email...")
       await transporter.sendMail({
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_FROM,
-        subject: `🚨 NEW BOOKING: ${name} - ${subject} ${customerEmailSent ? "" : "(Customer email failed)"}`,
+        subject: `🚨 NEW BOOKING: ${name} - ${subject}`,
         html: adminEmailHtml,
         attachments: attachments,
       })
       adminEmailSent = true
-    } catch (adminEmailError) {
-      console.error("Admin email failed:", adminEmailError)
-      console.error(
-        "Admin email error details:",
-        JSON.stringify(adminEmailError, Object.getOwnPropertyNames(adminEmailError)),
-      )
+      console.log("✅ Admin email sent successfully")
+    } catch (adminError) {
+      console.error("❌ Admin email failed:", adminError)
     }
 
-    // Return success only if customer email was sent successfully
     if (customerEmailSent) {
-      return NextResponse.json({ success: true, message: "Emails sent successfully" })
+      console.log("🎉 Booking completed successfully")
+      return NextResponse.json({ success: true, message: "Booking confirmed!" })
     } else {
-      // Even if customer email fails, we still want to know about the booking
+      console.log("⚠️ Booking saved but customer email failed")
       return NextResponse.json(
         {
           success: false,
-          error: "Failed to send confirmation email",
+          error: "Email sending failed",
           adminNotified: adminEmailSent,
         },
         { status: 500 },
       )
     }
   } catch (error) {
-    console.error("Email sending failed:", error)
-    console.error("Overall error details:", JSON.stringify(error, Object.getOwnPropertyNames(error)))
-
-    // Try to send at least an admin notification about the error
-    try {
-      const transporter = nodemailer.createTransporter({
-        host: process.env.EMAIL_SERVER_HOST,
-        port: Number(process.env.EMAIL_SERVER_PORT),
-        secure: false,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      })
-
-      await transporter.sendMail({
-        from: process.env.EMAIL_FROM,
-        to: process.env.EMAIL_FROM,
-        subject: "🚨 BOOKING SYSTEM ERROR - Manual Follow-up Required",
-        html: `
-          <h2>⚠️ BOOKING SYSTEM ERROR</h2>
-          <p>A booking attempt was made but the system encountered an error.</p>
-          <p><strong>Error:</strong> ${error.message}</p>
-          <p><strong>Time:</strong> ${new Date().toISOString()}</p>
-          <p>Please check the system logs and contact the user manually if needed.</p>
-        `,
-      })
-    } catch (emergencyEmailError) {
-      console.error("Emergency admin notification also failed:", emergencyEmailError)
-      console.error(
-        "Emergency email error details:",
-        JSON.stringify(emergencyEmailError, Object.getOwnPropertyNames(emergencyEmailError)),
-      )
-    }
-
-    return NextResponse.json({ success: false, error: "Failed to send email", details: error.message }, { status: 500 })
+    console.error("💥 Critical error in booking system:", error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: "System error occurred",
+      },
+      { status: 500 },
+    )
   }
 }

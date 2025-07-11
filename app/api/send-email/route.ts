@@ -193,6 +193,10 @@ ${files.length > 0 ? `<p><strong>📎 Files attached:</strong> ${files.length} f
       customerEmailSent = true
     } catch (customerEmailError) {
       console.error("Customer email failed:", customerEmailError)
+      console.error(
+        "Customer email error details:",
+        JSON.stringify(customerEmailError, Object.getOwnPropertyNames(customerEmailError)),
+      )
     }
 
     // Always try to send admin notification (even if customer email fails)
@@ -207,6 +211,10 @@ ${files.length > 0 ? `<p><strong>📎 Files attached:</strong> ${files.length} f
       adminEmailSent = true
     } catch (adminEmailError) {
       console.error("Admin email failed:", adminEmailError)
+      console.error(
+        "Admin email error details:",
+        JSON.stringify(adminEmailError, Object.getOwnPropertyNames(adminEmailError)),
+      )
     }
 
     // Return success only if customer email was sent successfully
@@ -225,6 +233,7 @@ ${files.length > 0 ? `<p><strong>📎 Files attached:</strong> ${files.length} f
     }
   } catch (error) {
     console.error("Email sending failed:", error)
+    console.error("Overall error details:", JSON.stringify(error, Object.getOwnPropertyNames(error)))
 
     // Try to send at least an admin notification about the error
     try {
@@ -252,6 +261,10 @@ ${files.length > 0 ? `<p><strong>📎 Files attached:</strong> ${files.length} f
       })
     } catch (emergencyEmailError) {
       console.error("Emergency admin notification also failed:", emergencyEmailError)
+      console.error(
+        "Emergency email error details:",
+        JSON.stringify(emergencyEmailError, Object.getOwnPropertyNames(emergencyEmailError)),
+      )
     }
 
     return NextResponse.json({ success: false, error: "Failed to send email", details: error.message }, { status: 500 })

@@ -98,21 +98,21 @@ export default function PaymentPage() {
         </div>
 
         {/* Main Payment Content - New Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 items-center max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-[600px_1fr] gap-8 items-center max-w-6xl mx-auto">
           {/* Left Column: Image */}
           <div className="hidden md:flex items-center justify-center p-4">
             <Image
               src="/images/see-you-soon-waving.png"
               alt="See you soon!"
-              width={500}
-              height={500}
-              className="w-full h-auto max-w-[500px] object-contain"
+              width={600}
+              height={600}
+              className="w-full h-auto max-w-[600px] object-contain"
               priority
             />
           </div>
 
           {/* Right Column: Payment Details */}
-          <div className="max-w-2xl mx-auto w-full">
+          <div className="max-w-lg mx-auto w-full">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Complete Your Payment</h1>
               <p className="text-gray-300">Secure payment via WhishMoney</p>

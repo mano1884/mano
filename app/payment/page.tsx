@@ -97,113 +97,106 @@ export default function PaymentPage() {
           </Link>
         </div>
 
-        {/* Payment Content */}
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Complete Your Payment</h1>
-            <p className="text-gray-300">Secure payment via WishMoney</p>
+        {/* Main Payment Content - New Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 items-center max-w-6xl mx-auto">
+          {/* Left Column: Image */}
+          <div className="hidden md:flex items-center justify-center p-4">
+            <Image
+              src="/images/see-you-soon-waving.png"
+              alt="See you soon!"
+              width={500}
+              height={500}
+              className="w-full h-auto max-w-[500px] object-contain"
+              priority
+            />
           </div>
 
-          <Card className="premium-card">
-            <CardHeader className="text-center pb-6">
-              <div className="flex justify-center mb-4">
-                <Image
-                  src="/images/wishmoney-logo.jpg"
-                  alt="WishMoney Logo"
-                  width={120}
-                  height={120}
-                  className="w-20 h-20 rounded-lg"
-                />
-              </div>
-              <CardTitle className="text-white text-xl">WishMoney Payment</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Order Details */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-black/30 rounded-lg border border-amber-500/30">
-                  <div className="flex items-center gap-3">
-                    <Hash className="h-5 w-5 text-amber-400" />
-                    <span className="text-white font-medium">Order ID</span>
+          {/* Right Column: Payment Details */}
+          <div className="max-w-2xl mx-auto w-full">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold mb-4 text-white text-glow-subtle">Complete Your Payment</h1>
+              <p className="text-gray-300">Secure payment via WhishMoney</p>
+            </div>
+
+            <Card className="premium-card">
+              <CardHeader className="text-center pb-6">
+                <div className="flex justify-center mb-4">
+                  <Image
+                    src="/images/wishmoney-logo.jpg"
+                    alt="WhishMoney Logo"
+                    width={120}
+                    height={120}
+                    className="w-20 h-20 rounded-lg"
+                  />
+                </div>
+                <CardTitle className="text-white text-xl">WhishMoney Payment</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Order Details */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-black/30 rounded-lg border border-amber-500/30">
+                    <div className="flex items-center gap-3">
+                      <Hash className="h-5 w-5 text-amber-400" />
+                      <span className="text-white font-medium">Order ID</span>
+                    </div>
+                    <span className="text-amber-300 font-mono text-lg">{bookingData?.orderId}</span>
                   </div>
-                  <span className="text-amber-300 font-mono text-lg">{bookingData?.orderId}</span>
+
+                  <div className="flex items-center justify-between p-4 bg-black/30 rounded-lg border border-amber-500/30">
+                    <div className="flex items-center gap-3">
+                      <Phone className="h-5 w-5 text-amber-400" />
+                      <span className="text-white font-medium">Payment Number</span>
+                    </div>
+                    <span className="text-amber-300 font-mono text-lg">70302418</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-amber-500/10 rounded-lg border border-amber-500/30">
+                    <div className="flex items-center gap-3">
+                      <CreditCard className="h-5 w-5 text-amber-400" />
+                      <span className="text-white font-medium">Amount to Pay</span>
+                    </div>
+                    <span className="text-amber-400 font-bold text-2xl">${bookingData?.totalAmount}</span>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 bg-black/30 rounded-lg border border-amber-500/30">
-                  <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-amber-400" />
-                    <span className="text-white font-medium">Payment Number</span>
-                  </div>
-                  <span className="text-amber-300 font-mono text-lg">70302418</span>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-amber-500/10 rounded-lg border border-amber-500/30">
-                  <div className="flex items-center gap-3">
-                    <CreditCard className="h-5 w-5 text-amber-400" />
-                    <span className="text-white font-medium">Amount to Pay</span>
-                  </div>
-                  <span className="text-amber-400 font-bold text-2xl">${bookingData?.totalAmount}</span>
-                </div>
-              </div>
-
-              {/* Payment Instructions */}
-              <div className="p-6 bg-gradient-to-r from-amber-500/10 to-amber-600/10 rounded-lg border border-amber-500/30">
-                <h3 className="text-white font-bold mb-4 text-center">Payment Instructions</h3>
-                <div className="space-y-3 text-gray-300 text-sm">
-                  <div className="flex items-start gap-3">
-                    <span className="text-amber-400 font-bold">1.</span>
-                    <span>Open your WishMoney app or visit their website</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-amber-400 font-bold">2.</span>
-                    <span>
-                      Send <strong className="text-amber-300">${bookingData?.totalAmount}</strong> to number{" "}
-                      <strong className="text-amber-300">70302418</strong>
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-amber-400 font-bold">3.</span>
-                    <span>
-                      Include Order ID <strong className="text-amber-300">{bookingData?.orderId}</strong> in the payment
-                      note
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-amber-400 font-bold">4.</span>
-                    <span>Take a screenshot of the payment confirmation</span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-amber-400 font-bold">5.</span>
-                    <span>
-                      Send the screenshot to <strong className="text-amber-300">unitutors7@gmail.com</strong>
-                    </span>
+                {/* Payment Instructions */}
+                <div className="p-6 bg-gradient-to-r from-amber-500/10 to-amber-600/10 rounded-lg border border-amber-500/30">
+                  <h3 className="text-white font-bold mb-4 text-center">Note</h3>
+                  <div className="space-y-3 text-gray-300 text-sm">
+                    <div className="flex items-start gap-3 justify-center">
+                      <span>
+                        Include Order ID <strong className="text-amber-300">{bookingData?.orderId}</strong> in the
+                        payment note
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Contact Support */}
-              <div className="text-center p-4 bg-black/30 rounded-lg border border-amber-500/30">
-                <p className="text-gray-300 text-sm mb-2">Need help with payment?</p>
-                <p className="text-amber-300 text-sm">📧 unitutors7@gmail.com | 📞 70302418</p>
-              </div>
+                {/* Contact Support */}
+                <div className="text-center p-4 bg-black/30 rounded-lg border border-amber-500/30">
+                  <p className="text-gray-300 text-sm mb-2">Need help with payment?</p>
+                  <p className="text-amber-300 text-sm">📧 unitutors7@gmail.com | 📞 70302418</p>
+                </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-3 justify-center pt-4">
-                <Button
-                  onClick={() => (window.location.href = "/")}
-                  className="btn-premium text-black font-medium px-6 py-2"
-                >
-                  Return to Home
-                </Button>
-                <Button
-                  onClick={() => (window.location.href = "/booking")}
-                  variant="outline"
-                  className="border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black px-6 py-2"
-                >
-                  Book Another Session
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                {/* Action Buttons */}
+                <div className="flex gap-3 justify-center pt-4">
+                  <Button
+                    onClick={() => (window.location.href = "/")}
+                    className="btn-premium text-black font-medium px-6 py-2"
+                  >
+                    Return to Home
+                  </Button>
+                  <Button
+                    onClick={() => (window.location.href = "/booking")}
+                    variant="outline"
+                    className="border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black px-6 py-2"
+                  >
+                    Book Another Session
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
